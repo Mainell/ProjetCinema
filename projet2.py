@@ -1,8 +1,6 @@
 # Importation des bibliothèques nécessaires
 
 import streamlit as st
-import plotly.express as px
-import seaborn as sns
 
 # Titre de l'application : mot de bienvenue !
 
