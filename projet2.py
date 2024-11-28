@@ -1,7 +1,6 @@
 # Importation des bibliothèques nécessaires
 
 import streamlit as st
-import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 
