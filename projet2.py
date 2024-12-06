@@ -58,16 +58,16 @@ with col3:
 
 # Création d'un menu permettant de choisir entre deux stratégies de choix de film
 
-selection = option_menu(
+#selection = option_menu(
 
-            menu_title=None,
+            #menu_title=None,
 
-            options = ["Choix d'un acteur que vous appréciez", "Choix du genre et de la période du film"]
+            #options = ["Choix d'un acteur que vous appréciez", "Choix du genre et de la période du film"]
 
-        )
+        #)
 
 # Stratégie n°1 : choix de l'acteur
-if selection == "Choix d'un acteur que vous appréciez":
+#if selection == "Choix d'un acteur que vous appréciez":
 
     st.markdown(
     """
@@ -96,7 +96,7 @@ if selection == "Choix d'un acteur que vous appréciez":
     #print(poster)
 
 # Stratégie n°2 : choix du genre et de la période du film
-elif selection == "Choix du genre et de la période du film":
+#elif selection == "Choix du genre et de la période du film":
 
     # Première partie : prise en compte du genre du film
     st.markdown(
