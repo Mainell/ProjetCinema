@@ -69,11 +69,11 @@ with col3:
 # Stratégie n°1 : choix de l'acteur
 #if selection == "Choix d'un acteur que vous appréciez":
 
-    st.markdown(
-    """
-    <h2 style="color: white; text-align: center;">Commencez par nous dire quel est l'acteur du film que vous aimeriez voir...</h2>
-    """, unsafe_allow_html=True
-    )
+st.markdown(
+"""
+<h2 style="color: white; text-align: center;">Commencez par nous dire quel est l'acteur du film que vous aimeriez voir...</h2>
+""", unsafe_allow_html=True
+)
 
 #def rechercher_films_par_acteur(df, acteur):
   #films = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
@@ -99,25 +99,25 @@ with col3:
 #elif selection == "Choix du genre et de la période du film":
 
     # Première partie : prise en compte du genre du film
-    st.markdown(
-    """
-    <h2 style="color: white; text-align: center;">Commencez par nous dire quel genre de film vous aimeriez voir...</h2>
-    """, unsafe_allow_html=True
-    )
+st.markdown(
+"""
+<h2 style="color: white; text-align: center;">Commencez par nous dire quel genre de film vous aimeriez voir...</h2>
+""", unsafe_allow_html=True
+)
 
-    st.radio("  ", ['Drame', 'Comédie', 'Documentaire', 'Crime', 'Action','Aventure', 'Biographie', 'Horreur', 'Dessin animé', 'Thriller', 'Romance', 'Famille', 'Science-Fiction', 'Musical', 'Western', 'Adult', 'Music', 'Guerre', 'Histoire'])
+st.radio("  ", ['Drame', 'Comédie', 'Documentaire', 'Crime', 'Action','Aventure', 'Biographie', 'Horreur', 'Dessin animé', 'Thriller', 'Romance', 'Famille', 'Science-Fiction', 'Musical', 'Western', 'Adult', 'Music', 'Guerre', 'Histoire'])
 
-    st.write("\n\n")
+st.write("\n\n")
 
-    # Deuxième partie : prise en compte de la date de production du film
-    st.markdown(
-    """
-    <h2 style="color: white; text-align: center;">... Et ensuite, un film de quelle période vous aimeriez regarder !</h2>
-    """, unsafe_allow_html=True
-    )
+# Deuxième partie : prise en compte de la date de production du film
+st.markdown(
+"""
+<h2 style="color: white; text-align: center;">... Et ensuite, un film de quelle période vous aimeriez regarder !</h2>
+""", unsafe_allow_html=True
+)
 
-    start_year, end_year = st.select_slider(
-    "   ", options=[
+start_year, end_year = st.select_slider(
+"   ", options=[
         "1930",
         "1940",
         "1950",
@@ -129,23 +129,23 @@ with col3:
         "2010",
         "2020",
         "2024"],
-    value=("1930", "2024"),
-    )
+value=("1930", "2024"),
+)
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.write(' ')
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.write(' ')
 
-    with col2:
-        st.write("La période que vous avez choisie commence en", start_year, "et se termine en", end_year)
+with col2:
+    st.write("La période que vous avez choisie commence en", start_year, "et se termine en", end_year)
 
-    with col3:
-        st.write(' ')
+with col3:
+    st.write(' ')
 
 
 
-    st.write("\n\n")
-    st.write('_____')
+st.write("\n\n")
+st.write('_____')
 
 
 # Ajout d'un bouton pour le fun, visible sur n'importe quelle page du menu
