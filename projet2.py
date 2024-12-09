@@ -9,14 +9,6 @@ import pandas as pd
 
 df = pd.read_csv("DFnettoye.csv")
 
-# Vérifier si un fichier a été téléchargé
-# if dataset_cinema is not None:
-    # Lire le fichier CSV avec Pandas
-    # df = pd.read_csv(dataset_cinema)
-
-    # Afficher les premières lignes du dataset
-    # st.write("Aperçu du dataset :")
-    # st.dataframe(df)
 
 # Ajout d'un fond sonore
 
