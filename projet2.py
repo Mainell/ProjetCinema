@@ -1,100 +1,173 @@
 # Importation des bibliothèques nécessaires
 
 import streamlit as st
+from streamlit_option_menu import option_menu
 
-# Titre de l'application : mot de bienvenue !
+import pandas as pd
 
-st.title("Bienvenue sur l'application de recommandation offerte par votre cinéma !")
-st.write("Nous sommes tout simplement ravis de pouvoir vous proposer de prolonger votre expérience cinématographique au-delà de nos murs.")
-st.write("\n\n")
-st.write('_____')
+# Importation du dataset
 
-# Première partie : prise en compte du film de référence
+dataset_cinema = st.file_uploader("DFnettoye.csv", type="csv")
 
-st.subheader("Commencez par nous donner le nom d'un film que vous avez aimé.")
-st.markdown(''':rainbow: :rainbow[Un film qui vous a fait rêver, pleurer, vibrer, ... à vous de choisir !]''')
-film_ref = st.text_input("Quel est le nom du film que vous avez en tête ?")
+# Vérifier si un fichier a été téléchargé
+# if dataset_cinema is not None:
+    # Lire le fichier CSV avec Pandas
+    # df = pd.read_csv(dataset_cinema)
 
-st.write("\n\n")
-st.write('_____')
+    # Afficher les premières lignes du dataset
+    # st.write("Aperçu du dataset :")
+    # st.dataframe(df)
 
-# Deuxième partie : ajout de critères personnalisés
+# Ajout d'un fond sonore
 
-st.subheader("Ensuite, dites-nous un peu quel type de film vous ferait envie là, tout de suite, maintenant !")
-st.markdown(''':rainbow: :rainbow[Une histoire à pleurer de rire ? Un thriller haletant ? Une lovestory fabuleuse ?]''')
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.write(' ')
 
-st.radio("Pourriez-vous me dire quel genre de film vous avez envie de regarder ?", ['Comédie', 'Aventure', 'Thriller', 'Romance', 'Documentaire', 'Dessin animé'])
-st.number_input("Pourriez-vous me donner la durée maximale (en minutes) de film que vous aimeriez voir ?", min_value=60)
+with col2:
+    #if st.button("Lancer le son"):
+    st.audio("mediavision.mp4", format="audio/mpeg")
 
-st.write("\n\n")
-st.write('_____')
+with col3:
+    st.write(' ')
 
-# Troisième partie : propositions de films
+# Ajout d'un fond d'écran
+page_element="""
+<style>
+[data-testid="stAppViewContainer"]{
+  background-image: url("https://lafibre.info/images/smileys/201004_Warm_lights_by_Max_Barners.jpg");
+  background-size: cover;
+}
+</style>
+"""
 
-st.subheader("Jetez un oeil aux autres films qui pourraient vous plaire !")
-st.markdown(''':rainbow: :rainbow[Un océan de possibilités s'offre à vous !]''')
-
-st.write("\n\n")
-st.write('_____')
-
-# Quelques graphiques
-
-st.header("Le monde du cinéma te fascine...? Nous aussi !")
-
-st.toggle("Souhaites-tu voir quelques graphiques sur le monde du cinéma ?", value = True)
-
-# Création des graphiques
-
-st.text('Graphiques disponibles :')
-
-scatter_chart = st.checkbox("Diagramme à nuages de points")
-
-bar_chart = st.checkbox("Graphique à barres")
-
-line_chart = st.checkbox("Graphique linéaire")
+st.markdown(page_element, unsafe_allow_html=True)
 
 
-st.write("\n\n")
+# Création d'un menu permettant d'accéder à la page d'accueil ou d'accéder à deux stratégies différentes de choix du film
+
+option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période"])
+
+if option == "Accueil":
+
+    # Titre de l'application : mot de bienvenue !
+    st.markdown(
+        """
+        <h1 style="color: white; text-align: center;">Bienvenue sur l'application de recommandations</h1>
+        <h2 style="color: orange; text-align: center;">Offerte par votre cinéma ! </h2>
+        """, unsafe_allow_html=True
+    )
+
+    st.write("\n\n")
+        # Ajout du logo de l'agence Multimedia-Creuse, au centre de trois colonnes
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.write(' ')
+
+    with col2:
+        st.image("logo.png")
+
+    with col3:
+        st.write(' ')
+
+elif option == "Choix par acteur":
+    st.markdown(
+    """
+    <h2 style="color: white; text-align: center;">Commencez par choisir un acteur.</h2>
+    """, unsafe_allow_html=True
+    )
+
+    acteur =  st.text_input("Entrez le nom d'un acteur:")
+
+    def rechercher_films_par_acteur(df, acteur):
+        films = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        if films.empty:
+            return f"Aucun film trouvé pour l'acteur '{acteur}'."
+        return films[['primaryTitle','primaryName']]
+
+    films_acteur = rechercher_films_par_acteur(df,acteur)
+    st.write(f"Films avec l'acteur/actrice '{acteur}':")
+    for index, row in films_acteur.iterrows():
+        acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.write(' ')
+
+    with col2:
+        if st.button("Clique ici si tu as aimé notre application !"):
+            st.markdown(''':yellow_heart: :rainbow[Merciiii ! A très bientôt !] :yellow_heart:''')
+
+    with col3:
+        st.write(' ')
 
 
-# Affichage des graphiques
 
-if scatter_chart :
+    st.write("\n\n")
+    st.write('_____')
 
-    st.write("Voici un diagramme à nuages de points :")
+        
 
-elif bar_chart :
+else : 
+    # Première partie : prise en compte du genre du film
 
-    st.write("Voici un graphique à barres :")
+    st.markdown(
+    """
+    <h2 style="color: white; text-align: center;">Commencez par nous dire quel genre de film vous aimeriez voir...</h2>
+    """, unsafe_allow_html=True
+    )
 
-elif line_chart :
+    st.radio("  ", ['Drame', 'Comédie', 'Documentaire', 'Crime', 'Action','Aventure', 'Biographie', 'Horreur', 'Dessin animé', 'Thriller', 'Romance', 'Famille', 'Science-Fiction', 'Musical', 'Western', 'Adult', 'Music', 'Guerre', 'Histoire'])
 
-    st.write("Voici un graphique linéaire :")
+    st.write("\n\n")
 
-else:
+    # Deuxième partie : prise en compte de la date de production du film
+    st.markdown(
+    """
+    <h2 style="color: white; text-align: center;">... Et ensuite, un film de quelle période vous aimeriez regarder !</h2>
+    """, unsafe_allow_html=True
+    )
 
-    st.write("N'oublie pas de cocher une case si tu veux voir un graphique, et évite de cocher plusieurs cases en même temps !")
+    start_year, end_year = st.select_slider(
+    "   ", options=[
+        "1930",
+        "1940",
+        "1950",
+        "1960",
+        "1970",
+        "1980",
+        "1990",
+        "2000",
+        "2010",
+        "2020",
+        "2024"],
+    value=("1930", "2024"),
+    )
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.write(' ')
+
+    with col2:
+        st.write("La période que vous avez choisie commence en", start_year, "et se termine en", end_year)
+
+    with col3:
+        st.write(' ')
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.write(' ')
+
+    with col2:
+        if st.button("Clique ici si tu as aimé notre application !"):
+            st.markdown(''':yellow_heart: :rainbow[Merciiii ! A très bientôt !] :yellow_heart:''')
+
+    with col3:
+        st.write(' ')
 
 
-# Ajout d'un selectbox
 
-st.selectbox("Quel est ton graphique préféré ?", ['Nuage de points', 'Graphique à barres', 'Graphique linéaire'])
+    st.write("\n\n")
+    st.write('_____')
 
-st.write("\n\n")
-st.write('_____')
-
-# Ajout d'un select_slider
-
-st.header("Votre avis est précieux, aidez-nous à améliorer cette application de recommandation !")
-
-st.markdown(''':rainbow: :rainbow[Donnez votre avis !]''')
-st.select_slider("Alors, t'as pensé quoi de notre appli ?", ['Vraiment nulle', 'Bof', 'Pas mal!', 'Tout à fait correcte', 'Elle est réussie', 'Vraiment trop cool', 'Extraordinaire'], value = 'Extraordinaire')
-
-st.text_area("Pourriez-vous nous expliquer votre avis ?")
-
-# Ajout de boutons
-
-st.checkbox("Souhaites-tu recevoir la programmation du cinéma par e-mail ?")
-
-if st.button("Tu penses réutiliser notre application ?"):
-    st.write("Merciiii ! A très bientôt !")
