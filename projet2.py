@@ -7,7 +7,7 @@ import pandas as pd
 
 # Importation du dataset
 
-dataset_cinema = st.file_uploader("DFnettoye.csv", type="csv")
+df = pd.read_csv("DFnettoye.csv")
 
 # Vérifier si un fichier a été téléchargé
 # if dataset_cinema is not None:
@@ -77,6 +77,8 @@ elif option == "Choix par acteur":
     <h2 style="color: white; text-align: center;">Commencez par choisir un acteur.</h2>
     """, unsafe_allow_html=True
     )
+
+    st.dataframe(df)
 
     acteur =  st.text_input("Entrez le nom d'un acteur:")
 
@@ -170,4 +172,3 @@ else :
 
     st.write("\n\n")
     st.write('_____')
-
