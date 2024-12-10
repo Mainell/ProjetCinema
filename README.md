@@ -9,4 +9,4 @@ Nous avons procédé au nettoyage et à l’analyse des données cinématographi
 Nous procèderons à l’affinage du contenu et de la présentation des produits en fonction des préférences indiquées par le client.
 
 Antoine, Catherine, Fabrice, Mainell & Myriam
-# Bootcamp Data Analysis réalisé à la Wild Code School
+## Bootcamp Data Analysis réalisé à la Wild Code School
