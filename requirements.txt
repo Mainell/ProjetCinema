@@ -3,3 +3,4 @@ streamlit_authenticator
 streamlit_option_menu
 pandas
 sklearn.neighbors
+sklearn.preprocessing
