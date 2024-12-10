@@ -5,6 +5,9 @@ from streamlit_option_menu import option_menu
 
 import pandas as pd
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
+
 # Importation du dataset
 
 df = pd.read_csv("DFnettoye.csv")
@@ -41,8 +44,8 @@ st.markdown(page_element, unsafe_allow_html=True)
 option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période"])
 
 if option == "Accueil":
-
-    # Titre de l'application : mot de bienvenue !
+    # Page d'Accueil
+    # Ajout d'un mot de bienvenue 
     st.markdown(
         """
         <h1 style="color: white; text-align: center;">Bienvenue sur l'application de recommandations</h1>
@@ -52,6 +55,7 @@ if option == "Accueil":
 
     st.write("\n\n")
         # Ajout du logo de l'agence Multimedia-Creuse, au centre de trois colonnes
+        # Ajout au même endroit des cinq documentaires conseillés
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -59,31 +63,37 @@ if option == "Accueil":
 
     with col2:
         st.image("logo.png")
+        df[df["genres"].str.contains("Documentary")].sort_values(by='averageRating').head(5)['primaryTitle']
 
     with col3:
         st.write(' ')
 
+    
+
 elif option == "Choix par acteur":
+    # Deuxième page : choix par acteur
     st.markdown(
     """
     <h2 style="color: white; text-align: center;">Commencez par choisir un acteur.</h2>
     """, unsafe_allow_html=True
     )
 
-    st.dataframe(df)
+    # st.dataframe(df)
 
     acteur =  st.text_input("Entrez le nom d'un acteur:")
 
-    def rechercher_films_par_acteur(df, acteur):
-        films = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
-        if films.empty:
-            return f"Aucun film trouvé pour l'acteur '{acteur}'."
-        return films[['primaryTitle','primaryName']]
+    df[df['primaryName'].str.contains(acteur, case=False, na=False)]
 
-    films_acteur = rechercher_films_par_acteur(df,acteur)
-    st.write(f"Films avec l'acteur/actrice '{acteur}':")
-    for index, row in films_acteur.iterrows():
-        acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+    # def rechercher_films_par_acteur(df, acteur):
+        # films = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        # if films.empty:
+            # return f"Aucun film trouvé pour l'acteur '{acteur}'."
+        # return films[['primaryTitle','primaryName']]
+
+    # films_acteur = rechercher_films_par_acteur(df,acteur)
+    # st.write(f"Films avec l'acteur/actrice '{acteur}':")
+    # for index, row in films_acteur.iterrows():
+        # acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
     
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -104,56 +114,100 @@ elif option == "Choix par acteur":
         
 
 else : 
-    # Première partie : prise en compte du genre du film
+    # Troisième page : choix par genre et par période
 
     st.markdown(
     """
-    <h2 style="color: white; text-align: center;">Commencez par nous dire quel genre de film vous aimeriez voir...</h2>
+    <h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
     """, unsafe_allow_html=True
     )
-
-    st.radio("  ", ['Drame', 'Comédie', 'Documentaire', 'Crime', 'Action','Aventure', 'Biographie', 'Horreur', 'Dessin animé', 'Thriller', 'Romance', 'Famille', 'Science-Fiction', 'Musical', 'Western', 'Adult', 'Music', 'Guerre', 'Histoire'])
 
     st.write("\n\n")
 
-    # Deuxième partie : prise en compte de la date de production du film
-    st.markdown(
-    """
-    <h2 style="color: white; text-align: center;">... Et ensuite, un film de quelle période vous aimeriez regarder !</h2>
-    """, unsafe_allow_html=True
-    )
 
-    start_year, end_year = st.select_slider(
-    "   ", options=[
-        "1930",
-        "1940",
-        "1950",
-        "1960",
-        "1970",
-        "1980",
-        "1990",
-        "2000",
-        "2010",
-        "2020",
-        "2024"],
-    value=("1930", "2024"),
-    )
+    genres = {
+        'Drame': 0,
+        'Crime': 1,
+        'Comédie': 2,
+        'Action': 3,
+        'Aventure': 4,
+        'Biographie': 5,
+        'Romance': 6,
+        'Fantaisie': 7,
+        'Musical': 8,
+        'Horreur': 9,
+        'Mystère': 10,
+        'Science-fiction': 11,
+        'Animation': 12,
+        'Documentaire': 13,
+        'Western': 14,
+        'Musique': 15,
+        'Famille': 16,
+        'Thriller': 17,
+        'Guerre': 18,
+        'Adulte': 19,
+        'Histoire': 20}
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.write(' ')
+    
+    #choix_genre = st.radio(" ", options=list(genres.keys() ) )
+    #genre_value = genres[choix_genre]
+    #st.write(f"Vous avez choisi le genre '{choix_genre}' : très bon choix !")
 
-    with col2:
-        st.write("La période que vous avez choisie commence en", start_year, "et se termine en", end_year)
-
-    with col3:
-        st.write(' ')
+    startyear, endyear = st.select_slider("Choisissez une date de début et une date de fin pour la période de votre film",
+                                            options=range(1930, 2025),
+                                            value=(1930, 2024))
     
     col1, col2, col3 = st.columns(3)
     with col1:
         st.write(' ')
 
     with col2:
+
+        st.write("La période que vous avez choisie commence en", startyear, "et se termine en", endyear)
+
+        X = df[['startYear','genre_facto']]
+
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        model = NearestNeighbors(n_neighbors=3, metric="euclidean")
+        model.fit(X_scaled)
+
+        genre_selection = st.selectbox("Choisissez un genre :", list(genres.keys()))
+        genre_facto = genres[genre_selection]
+
+
+        if st.button("Lancer la recherche"):
+            recom = []
+            for i in range(startyear, endyear + 1):
+                criteres = pd.DataFrame([[i, genre_facto]], columns=['startYear', 'genre_facto'])
+                criteres_scaled = scaler.transform(criteres)
+                distance, indice = model.kneighbors(criteres_scaled)
+                reco = df.iloc[indice[0]].copy()
+                reco['Distance'] = distance[0]
+                reco = reco[(reco['startYear'] >= startyear) & (reco['startYear'] <= endyear)]
+                recom.append(reco)
+
+            recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
+            recom_final = recom_final.rename(columns={
+                'primaryTitle': 'Titre',
+                'startYear': 'Année',
+                'genres': 'Genres',
+                'runtimeMinutes': 'Durée (minutes)',
+                'averageRating': 'Note moyenne'}).sort_values(["Distance", "Note moyenne"], ascending=[True, False]) 
+    
+        st.markdown("<h3 style='color: white;'>Top 5 recommandations :</h3>", unsafe_allow_html=True)
+        if recom_final.empty:
+            st.write("Aucun film trouvé pour les critères sélectionnés.")
+        else:
+            for i, j in recom_final.head(5).iterrows():
+                st.write(
+                    f"- {j['Titre']} - ({int(j['Année'])})\n"
+                    f"  - Genres : {j['Genres']}\n"
+                    f"  - Durée : {j['Durée (minutes)']} minutes\n"
+                    f"  - Note moyenne : {j['Note moyenne']}\n")
+
+        # Pour finir, ajoutr d'un bouton pour recuueillir l'avis utilisateur
         if st.button("Clique ici si tu as aimé notre application !"):
             st.markdown(''':yellow_heart: :rainbow[Merciiii ! A très bientôt !] :yellow_heart:''')
 
