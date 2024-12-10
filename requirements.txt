@@ -3,9 +3,4 @@ streamlit_authenticator
 streamlit_option_menu
 
 pandas
-
 scikit-learn
-NearestNeighbors
-sklearn.neighbors
-StandardScaler
-sklearn.preprocessing
