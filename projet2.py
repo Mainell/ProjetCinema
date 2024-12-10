@@ -21,12 +21,13 @@ with col1:
 
 with col2:
     #if st.button("Lancer le son"):
-    st.audio("mediavision.mp4", format="audio/mpeg")
+    st.audio("mediavision.mp3", format="audio/mpeg", autoplay= True)
 
 with col3:
     st.write(' ')
 
 # Ajout d'un fond d'écran
+
 page_element="""
 <style>
 [data-testid="stAppViewContainer"]{
@@ -54,8 +55,9 @@ if option == "Accueil":
     )
 
     st.write("\n\n")
-        # Ajout du logo de l'agence Multimedia-Creuse, au centre de trois colonnes
-        # Ajout au même endroit des cinq documentaires conseillés
+    
+    
+    # Ajout du logo de l'agence Multimedia-Creuse, au centre de trois colonnes
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -63,12 +65,44 @@ if option == "Accueil":
 
     with col2:
         st.image("logo.png")
-        df[df["genres"].str.contains("Documentary")].sort_values(by='averageRating').head(5)['primaryTitle']
+        #df[df["genres"].str.contains("Documentary")].sort_values(by='averageRating').head(5)['primaryTitle']
 
     with col3:
         st.write(' ')
 
-    
+    # Ajout de quelques documentaires conseillés car thème 2025 du festival cinéma d'Aubusson
+
+    col1, col2, col3 = st.columns(3)
+    recoaccueil = df[df['genres'].str.contains("Documentary")].sort_values(by='averageRating').sample(6)
+
+    with col1:
+        for i, j in recoaccueil.iloc[0:2].iterrows():
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + j['poster_path']
+            st.image(URL)
+            st.write(f"- {j['primaryTitle']} - ({int(j['startYear'])})\n"
+                     f" - Genres : {j['genre_unique']}\n"
+                     f" - Durée : {j['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {j['averageRating']}\n")  
+    with col2:
+        for i, j in recoaccueil.iloc[2:4].iterrows():
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + j['poster_path']
+            st.image(URL)
+            st.write(f"- {j['primaryTitle']} - ({int(j['startYear'])})\n"
+                     f" - Genres : {j['genre_unique']}\n"
+                     f" - Durée : {j['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {j['averageRating']}\n")
+    with col3:
+        for i, j in recoaccueil.iloc[4:6].iterrows():
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + j['poster_path']
+            st.image(URL)
+            st.write(f"- {j['primaryTitle']} - ({int(j['startYear'])})\n"
+                     f" - Genres : {j['genre_unique']}\n"
+                     f" - Durée : {j['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {j['averageRating']}\n")
+
 
 elif option == "Choix par acteur":
     # Deuxième page : choix par acteur
@@ -82,7 +116,41 @@ elif option == "Choix par acteur":
 
     acteur =  st.text_input("Entrez le nom d'un acteur:")
 
-    df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        for index, row in films_acteur.iloc[0:2].iterrows():
+            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + row['poster_path']
+            st.image(URL)
+            st.write(f"- {row['primaryTitle']} - ({int(row['startYear'])})\n"
+                     f" - Genres : {row['genre_unique']}\n"
+                     f" - Durée : {row['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {row['averageRating']}\n")  
+    with col2:
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        for index, row in films_acteur.iloc[2:4].iterrows():
+            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + row['poster_path']
+            st.image(URL)
+            st.write(f"- {row['primaryTitle']} - ({int(row['startYear'])})\n"
+                     f" - Genres : {row['genre_unique']}\n"
+                     f" - Durée : {row['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {row['averageRating']}\n")  
+    with col3:
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        for index, row in films_acteur.iloc[4:6].iterrows():
+            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+            base_image = "https://image.tmdb.org/t/p/w500"
+            URL = base_image + row['poster_path']
+            st.image(URL)
+            st.write(f"- {row['primaryTitle']} - ({int(row['startYear'])})\n"
+                     f" - Genres : {row['genre_unique']}\n"
+                     f" - Durée : {row['runtimeMinutes']} minutes\n"
+                     f" - Note moyenne : {row['averageRating']}\n")  
 
     # def rechercher_films_par_acteur(df, acteur):
         # films = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
@@ -206,6 +274,9 @@ else :
                     f"  - Genres : {j['Genres']}\n"
                     f"  - Durée : {j['Durée (minutes)']} minutes\n"
                     f"  - Note moyenne : {j['Note moyenne']}\n")
+                base_image = "https://image.tmdb.org/t/p/w500"
+                URL = base_image + j['poster_path']
+                st.image(URL) 
 
         # Pour finir, ajoutr d'un bouton pour recuueillir l'avis utilisateur
         if st.button("Clique ici si tu as aimé notre application !"):
