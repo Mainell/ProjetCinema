@@ -75,7 +75,7 @@ if option == "Accueil":
     with col3:
         st.markdown(
         """
-        <h3 style="color: white; text-align: center;">... en prévision des festivals du cinéma 2025 </h3>
+        <h3 style="color: white; text-align: center;">... en prévision des festivals du cinéma | 2025 </h3>
         """, unsafe_allow_html=True
         )
         st.write(' ')
