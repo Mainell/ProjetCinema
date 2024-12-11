@@ -80,10 +80,13 @@ if option == "Accueil":
         )
         st.write(' ')
 
+    st.write("\n\n")
+    st.write('_____')
+
     # Ajout de quelques documentaires conseillés car thème 2025 du festival cinéma d'Aubusson
 
     col1, col2, col3 = st.columns(3)
-    recoaccueil = df[df['genres'].str.contains("Documentary")].sort_values(by='averageRating').sample(6)
+    recoaccueil = df[df['genres'].str.contains("Documentary")].sort_values(by='averageRating', ascending=False).sample(6)
 
     with col1:
         for i, j in recoaccueil.iloc[0:2].iterrows():
@@ -118,9 +121,12 @@ elif option == "Choix par acteur":
     # Deuxième page : choix par acteur
     st.markdown(
     """
-    <h2 style="color: white; text-align: center;">Commencez par choisir un acteur.</h2>
+    <h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
     """, unsafe_allow_html=True
     )
+
+    st.write("\n\n")
+    st.write('_____')
 
     # st.dataframe(df)
 
@@ -129,7 +135,7 @@ elif option == "Choix par acteur":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating',ascending=False)
         for index, row in films_acteur.iloc[0:2].iterrows():
             acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
@@ -140,7 +146,7 @@ elif option == "Choix par acteur":
                      f" - Durée : {row['runtimeMinutes']} minutes\n"
                      f" - Note moyenne : {row['averageRating']}\n")  
     with col2:
-        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
         for index, row in films_acteur.iloc[2:4].iterrows():
             acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
@@ -151,7 +157,7 @@ elif option == "Choix par acteur":
                      f" - Durée : {row['runtimeMinutes']} minutes\n"
                      f" - Note moyenne : {row['averageRating']}\n")  
     with col3:
-        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)]
+        films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
         for index, row in films_acteur.iloc[4:6].iterrows():
             acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
@@ -173,6 +179,9 @@ elif option == "Choix par acteur":
     # for index, row in films_acteur.iterrows():
         # acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
     
+    st.write("\n\n")
+    st.write('_____')
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.write(' ')
@@ -187,7 +196,6 @@ elif option == "Choix par acteur":
 
 
     st.write("\n\n")
-    st.write('_____')
 
         
 
@@ -200,6 +208,7 @@ else :
     """, unsafe_allow_html=True
     )
 
+    st.write('_____')
     st.write("\n\n")
 
 
@@ -226,23 +235,15 @@ else :
         'Adulte': 19,
         'Histoire': 20}
 
-    
-    #choix_genre = st.radio(" ", options=list(genres.keys() ) )
-    #genre_value = genres[choix_genre]
-    #st.write(f"Vous avez choisi le genre '{choix_genre}' : très bon choix !")
 
     startyear, endyear = st.select_slider("Choisissez une date de début et une date de fin pour la période de votre film",
                                             options=range(1930, 2025),
                                             value=(1930, 2024))
-    
+
+    #st.write("La période que vous avez choisie commence en", startyear, "et se termine en", endyear)
+
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.write(' ')
-
-    with col2:
-
-        st.write("La période que vous avez choisie commence en", startyear, "et se termine en", endyear)
-
         X = df[['startYear','genre_facto']]
 
         scaler = StandardScaler()
@@ -255,6 +256,8 @@ else :
         genre_facto = genres[genre_selection]
 
 
+    with col2:
+
         if st.button("Lancer la recherche"):
             recom = []
             for i in range(startyear, endyear + 1):
@@ -266,17 +269,17 @@ else :
                 reco = reco[(reco['startYear'] >= startyear) & (reco['startYear'] <= endyear)]
                 recom.append(reco)
 
-            recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
-            recom_final = recom_final.rename(columns={
-                'primaryTitle': 'Titre',
-                'startYear': 'Année',
-                'genres': 'Genres',
-                'runtimeMinutes': 'Durée (minutes)',
-                'averageRating': 'Note moyenne'}).sort_values(["Distance", "Note moyenne"], ascending=[True, False]) 
+                recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
+                recom_final = recom_final.rename(columns={
+                    'primaryTitle': 'Titre',
+                    'startYear': 'Année',
+                    'genres': 'Genres',
+                    'runtimeMinutes': 'Durée (minutes)',
+                    'averageRating': 'Note moyenne'}).sort_values(["Distance", "Note moyenne"], ascending=[True, False]) 
     
-        st.markdown("<h3 style='color: white;'>Top 5 recommandations :</h3>", unsafe_allow_html=True)
         if recom_final.empty:
             st.write("Aucun film trouvé pour les critères sélectionnés.")
+
         else:
             for i, j in recom_final.head(5).iterrows():
                 st.write(
@@ -288,14 +291,18 @@ else :
                 URL = base_image + j['poster_path']
                 st.image(URL) 
 
+        st.write("\n\n")
+        st.write('_____')
+
         # Pour finir, ajoutr d'un bouton pour recuueillir l'avis utilisateur
         if st.button("Clique ici si tu as aimé notre application !"):
             st.markdown(''':yellow_heart: :rainbow[Merciiii ! A très bientôt !] :yellow_heart:''')
 
     with col3:
+        st.markdown(
+        """
+        <h3 style="color: orange; text-align: center;">Top 5 des recommandations </h3>
+        """, unsafe_allow_html=True
+        )
+
         st.write(' ')
-
-
-
-    st.write("\n\n")
-    st.write('_____')
