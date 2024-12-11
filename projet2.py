@@ -61,6 +61,11 @@ if option == "Accueil":
 
     col1, col2, col3 = st.columns(3)
     with col1:
+        st.markdown(
+        """
+        <h3 style="color: white; text-align: center;">Voici une suggestion de documentaires...</h3>
+        """, unsafe_allow_html=True
+        )
         st.write(' ')
 
     with col2:
@@ -68,6 +73,11 @@ if option == "Accueil":
         #df[df["genres"].str.contains("Documentary")].sort_values(by='averageRating').head(5)['primaryTitle']
 
     with col3:
+        st.markdown(
+        """
+        <h3 style="color: white; text-align: center;">... en prévision des festivals du cinéma 2025 </h3>
+        """, unsafe_allow_html=True
+        )
         st.write(' ')
 
     # Ajout de quelques documentaires conseillés car thème 2025 du festival cinéma d'Aubusson
