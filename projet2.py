@@ -36,7 +36,7 @@ page_element="""
 }
 </style>
 """
-
+st.write("juste un test")
 st.markdown(page_element, unsafe_allow_html=True)
 
 
