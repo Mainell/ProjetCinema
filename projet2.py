@@ -343,16 +343,17 @@ else :
                 'runtimeMinutes': 'Durée (minutes)',
                 'averageRating': 'Note moyenne'}).sort_values(["Distance", "Note moyenne"], ascending=[True, False])
 
+        st.write('_____')
+        st.write(' ')
         st.markdown("<h3 style='color: orange; text-align: center;'>Top 5 des recommandations:</h3>", unsafe_allow_html=True)
         st.write("\n\n")
-        st.write('_____')
 
 
     with col3:
         st.write(' ')
     
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3 = st.columns(3)
     with col1:
         if recom_final.empty:
             st.write(" ")
@@ -383,7 +384,7 @@ else :
 
     with col2:
         if recom_final.empty:
-            st.write("Aucun film trouvé pour les critères sélectionnés.")
+            st.write("Choisissez une période et un genre ! Si rien ne s'affiche après avoir appuyé sur le bouton 'Lancer la recherche', c'est qu'aucun film n'a été trouvé pour les crtières sélectionnés.")
         else:
             for i, j in recom_final.iloc[1:2].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
@@ -433,62 +434,6 @@ else :
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
 
                 st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
-                        f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
-        st.write(' ')
-
-        with col4:
-            if recom_final.empty:
-                st.write(" ")
-            else:
-                for i, j in recom_final.iloc[3:4].iterrows():
-                    base_image = "https://image.tmdb.org/t/p/w500"
-                    URL_image = base_image + j['poster_path']
-                    base_imdb = "https://www.imdb.com/title/"
-                    URL_imdb = base_imdb + j['tconst']
-                    regions = [x.strip("'")for x in j['region'].split(", ")]
-                    titres = [x.strip("'")for x in j['title'].split(", ")]
-                    if len(regions)<len(titres):
-                        regions += ['\\N']*(len(titres)-len(regions))
-                    elif len(regions)>len(titres):
-                        titres += ['']*(len(regions)-len(titres))
-                    if 'FR' in regions:
-                        indexfr = regions.index('FR')
-                        titrefr=titres[indexfr].strip("['[\"").replace('"',"")
-                    else: titrefr=titres[0].strip("['[\"").replace('"',"")
-                    st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
-
-                    st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
-                        f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
-        st.write(' ')
-
-        with col5:
-            if recom_final.empty:
-                st.write(" ")
-            else:
-                for i, j in recom_final.iloc[4:5].iterrows():
-                    base_image = "https://image.tmdb.org/t/p/w500"
-                    URL_image = base_image + j['poster_path']
-                    base_imdb = "https://www.imdb.com/title/"
-                    URL_imdb = base_imdb + j['tconst']
-                    regions = [x.strip("'")for x in j['region'].split(", ")]
-                    titres = [x.strip("'")for x in j['title'].split(", ")]
-                    if len(regions)<len(titres):
-                        regions += ['\\N']*(len(titres)-len(regions))
-                    elif len(regions)>len(titres):
-                        titres += ['']*(len(regions)-len(titres))
-                    if 'FR' in regions:
-                        indexfr = regions.index('FR')
-                        titrefr=titres[indexfr].strip("['[\"").replace('"',"")
-                    else: titrefr=titres[0].strip("['[\"").replace('"',"")
-                    st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
-
-                    st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
                         f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
                         f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
         st.write(' ')
