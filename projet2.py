@@ -345,7 +345,7 @@ else :
 
         st.write('_____')
         st.write(' ')
-        st.markdown("<h3 style='color: orange; text-align: center;'>Top 5 des recommandations:</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: orange; text-align: center;'>Top 3 des recommandations:</h3>", unsafe_allow_html=True)
         st.write("\n\n")
 
 
