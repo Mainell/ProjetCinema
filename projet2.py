@@ -13,7 +13,7 @@ translator = GoogleTranslator(source='auto', target='fr')
 
 # Importation du datasetcd
 
-df = pd.read_csv("dfnettoye_titrefr.csv")
+df = pd.read_csv("df_avecgenretrad.csv")
 
 
 # Ajout d'un fond sonore
@@ -109,7 +109,7 @@ if option == "Accueil":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
 
@@ -133,7 +133,7 @@ if option == "Accueil":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
     with col3:
@@ -156,7 +156,7 @@ if option == "Accueil":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
 
@@ -204,7 +204,7 @@ elif option == "Choix par acteur":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(row['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {row['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
 
@@ -230,7 +230,7 @@ elif option == "Choix par acteur":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(row['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {row['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
     with col3:
@@ -255,7 +255,7 @@ elif option == "Choix par acteur":
             st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(row['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-            st.write(f"  - 🎭 Genre : {row['genre_unique']}\n"
+            st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
     
@@ -381,10 +381,11 @@ else :
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+                st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
-                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                with st.expander("📜 Lire le résumé"):
+                    st.write(translator.translate(j['overview']))
         st.write(' ')
 
     with col2:
@@ -411,10 +412,12 @@ else :
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+                st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
-                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                with st.expander("📜 Lire le résumé"):
+                    st.write(translator.translate(j['overview']))
+
         st.write(' ')
 
     with col3:
@@ -440,10 +443,11 @@ else :
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
+                st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
-                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                with st.expander("📜 Lire le résumé"):
+                    st.write(translator.translate(j['overview']))
 
         st.write(' ')
 
