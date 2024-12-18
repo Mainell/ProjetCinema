@@ -375,7 +375,7 @@ else :
 
         #st.write('_____')
         st.write(' ')
-        st.markdown("<h3 style='color: orange; text-align: center;'>Top 3 des recommandations</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: orange; text-align: center;'>Top 6 des recommandations</h3>", unsafe_allow_html=True)
         st.write("\n\n")
 
 
@@ -388,7 +388,7 @@ else :
         if recom_final.empty:
             st.write(" ")
         else:
-            for i, j in recom_final.iloc[0:1].iterrows():
+            for i, j in recom_final.iloc[0:2].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
                 URL_image = base_image + j['poster_path']
                 base_imdb = "https://www.imdb.com/title/"
@@ -421,7 +421,7 @@ else :
             st.markdown("<h5 style='color: white; text-align: center;'>Choisissez une période et un genre ci-dessus !</h5>", unsafe_allow_html=True)
             #st.write("Choisissez une période et un genre ! Si rien ne s'affiche après avoir appuyé sur le bouton 'Lancer la recherche', c'est qu'aucun film n'a été trouvé pour les crtières sélectionnés.")
         else:
-            for i, j in recom_final.iloc[1:2].iterrows():
+            for i, j in recom_final.iloc[2:4].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
                 URL_image = base_image + j['poster_path']
                 base_imdb = "https://www.imdb.com/title/"
@@ -454,7 +454,7 @@ else :
         if recom_final.empty:
             st.write(" ")
         else:
-            for i, j in recom_final.iloc[2:3].iterrows():
+            for i, j in recom_final.iloc[4:6].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
                 URL_image = base_image + j['poster_path']
                 base_imdb = "https://www.imdb.com/title/"
