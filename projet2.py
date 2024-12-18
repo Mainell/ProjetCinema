@@ -112,6 +112,10 @@ if option == "Accueil":
             st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(j['overview']) or len(j['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(j['overview']))
 
     with col2:
         for i, j in recoaccueil.iloc[2:4].iterrows():
@@ -136,6 +140,11 @@ if option == "Accueil":
             st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(j['overview']) or len(j['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(j['overview']))
+
     with col3:
         for i, j in recoaccueil.iloc[4:6].iterrows():
             base_image = "https://image.tmdb.org/t/p/w500"
@@ -159,6 +168,10 @@ if option == "Accueil":
             st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(j['overview']) or len(j['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(j['overview']))
 
 
 elif option == "Choix par acteur":
@@ -207,6 +220,10 @@ elif option == "Choix par acteur":
             st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(row['overview']) or len(row['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(row['overview']))
 
     with col2:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
@@ -233,6 +250,11 @@ elif option == "Choix par acteur":
             st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(row['overview']) or len(row['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(row['overview']))
+
     with col3:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
         for index, row in films_acteur.iloc[4:6].iterrows():
@@ -258,6 +280,10 @@ elif option == "Choix par acteur":
             st.write(f"  - 🎭 Genre : {row['Genre_trad']}\n"
                      f"  - ⌛ Durée : {int(row['runtimeMinutes']//60)}h {int(row['runtimeMinutes']-((row['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {row['averageRating']}\n")
+            with st.expander("📜 Lire le résumé"):
+                if pd.isna(row['overview']) or len(row['overview'])>4998:
+                    st.write("Aucun résumé disponible.")
+                else: st.write(translator.translate(row['overview']))
     
     st.write("\n\n")
     st.write('_____')
@@ -385,7 +411,9 @@ else :
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                         f"  - ⭐ Note moyenne : {j['averageRating']}\n")
                 with st.expander("📜 Lire le résumé"):
-                    st.write(translator.translate(j['overview']))
+                    if pd.isna(j['overview']) or len(j['overview'])>4998:
+                        st.write("Aucun résumé disponible.")
+                    else: st.write(translator.translate(j['overview']))
         st.write(' ')
 
     with col2:
@@ -416,7 +444,9 @@ else :
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                         f"  - ⭐ Note moyenne : {j['averageRating']}\n")
                 with st.expander("📜 Lire le résumé"):
-                    st.write(translator.translate(j['overview']))
+                    if pd.isna(j['overview']) or len(j['overview'])>4998:
+                        st.write("Aucun résumé disponible.")
+                    else: st.write(translator.translate(j['overview']))
 
         st.write(' ')
 
@@ -447,7 +477,9 @@ else :
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                         f"  - ⭐ Note moyenne : {j['averageRating']}\n")
                 with st.expander("📜 Lire le résumé"):
-                    st.write(translator.translate(j['overview']))
+                    if pd.isna(j['overview']) or len(j['overview'])>4998:
+                        st.write("Aucun résumé disponible.")
+                    else: st.write(translator.translate(j['overview']))
 
         st.write(' ')
 
