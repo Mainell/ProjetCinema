@@ -8,7 +8,10 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 
-# Importation du dataset
+from deep_translator import GoogleTranslator
+translator = GoogleTranslator(source='auto', target='fr')
+
+# Importation du datasetcd
 
 df = pd.read_csv("dfnettoye_titrefr.csv")
 
@@ -20,7 +23,7 @@ with col1:
     st.write(' ')
 
 with col2:
-    st.audio("mediavision.mp3", format="audio/mpeg", autoplay= False)
+    st.audio("mediavision.mp3", format="audio/mpeg", autoplay = False)
 
 with col3:
     st.write(' ')
@@ -45,7 +48,7 @@ option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vou
 
 if option == "Accueil":
     # Page d'Accueil
-    # Ajout d'un mot de bienvenue 
+    # Ajout d'un mot de bienvenue
     st.markdown(
         """
         <h1 style="color: white; text-align: center;">Bienvenue sur l'application de recommandations</h1>
@@ -109,6 +112,7 @@ if option == "Accueil":
             st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
                      f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                      f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+
     with col2:
         for i, j in recoaccueil.iloc[2:4].iterrows():
             base_image = "https://image.tmdb.org/t/p/w500"
@@ -164,18 +168,24 @@ elif option == "Choix par acteur":
     <h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
     """, unsafe_allow_html=True
     )
-
+    #st.write('_____')
     st.write("\n\n")
-    st.write('_____')
 
     acteur =  st.text_input("Entrez le nom d'un acteur:")
+
+    st.write('_____')
+    st.markdown(
+    """
+    <h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
+    """, unsafe_allow_html=True
+    )
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating',ascending=False)
         for index, row in films_acteur.iloc[0:2].iterrows():
-            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
+            #acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
             URL_image = base_image + row['poster_path']
             base_imdb = "https://www.imdb.com/title/"
@@ -336,16 +346,10 @@ else :
 
 
             recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
-            recom_final = recom_final.rename(columns={
-                'primaryTitle': 'Titre',
-                'startYear': 'Année',
-                'genres': 'Genres',
-                'runtimeMinutes': 'Durée (minutes)',
-                'averageRating': 'Note moyenne'}).sort_values(["Distance", "Note moyenne"], ascending=[True, False])
 
-        st.write('_____')
+        #st.write('_____')
         st.write(' ')
-        st.markdown("<h3 style='color: orange; text-align: center;'>Top 3 des recommandations:</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: orange; text-align: center;'>Top 3 des recommandations</h3>", unsafe_allow_html=True)
         st.write("\n\n")
 
 
@@ -375,16 +379,18 @@ else :
                 else: titrefr=titres[0].strip("['[\"").replace('"',"")
                 st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
+                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
                 st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
-                        f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
+                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
+                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
         st.write(' ')
 
     with col2:
         if recom_final.empty:
-            st.write("Choisissez une période et un genre ! Si rien ne s'affiche après avoir appuyé sur le bouton 'Lancer la recherche', c'est qu'aucun film n'a été trouvé pour les crtières sélectionnés.")
+            st.markdown("<h5 style='color: white; text-align: center;'>Choisissez une période et un genre ci-dessus !</h5>", unsafe_allow_html=True)
+            #st.write("Choisissez une période et un genre ! Si rien ne s'affiche après avoir appuyé sur le bouton 'Lancer la recherche', c'est qu'aucun film n'a été trouvé pour les crtières sélectionnés.")
         else:
             for i, j in recom_final.iloc[1:2].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
@@ -403,11 +409,12 @@ else :
                 else: titrefr=titres[0].strip("['[\"").replace('"',"")
                 st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
+                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
                 st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
-                        f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
+                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
+                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
         st.write(' ')
 
     with col3:
@@ -431,12 +438,20 @@ else :
                 else: titrefr=titres[0].strip("['[\"").replace('"',"")
                 st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                 st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['Année'])})</span></div>""", unsafe_allow_html=True)
+                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
                 st.write(f"  - 🎭 Genre : {j['genre_unique']}\n"
-                        f"  - ⌛ Durée : {int(j['Durée (minutes)']//60)}h {int(j['Durée (minutes)']-((j['Durée (minutes)']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['Note moyenne']}\n")
+                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        f"  - ⭐ Note moyenne : {j['averageRating']}\n"
+                        f"  - 📜 Résumé : {translator.translate(j['overview'])}\n")
+
         st.write(' ')
+
+
+    
+    st.write("\n\n")
+    st.write('_____')
+
 
 
     
