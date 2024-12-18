@@ -6,4 +6,4 @@ pandas
 scikit-learn
 
 GoogleTranslator
-deep_translator
+deep-translator
