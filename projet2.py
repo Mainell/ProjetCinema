@@ -451,9 +451,3 @@ else :
     
     st.write("\n\n")
     st.write('_____')
-
-
-
-    
-    st.write("\n\n")
-    st.write('_____')
