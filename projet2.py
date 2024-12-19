@@ -372,6 +372,7 @@ else :
 
 
             recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
+            recom_final = recom_final.sort_values(["Distance", "averageRating"], ascending=[True, False])
 
         #st.write('_____')
         st.write(' ')
