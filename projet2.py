@@ -422,28 +422,11 @@ elif option == "Choix par genre et par période" :
     st.write('_____')
 
 else :
-
-    # TEST Premier visuel d'une ancienne promo de la wild avec liste déroulante
-    liste_films = pd.read_pickle("liste_films.pkl")
-    list_film_deroulante_films = ["Tape le film que tu aimes"] + list(liste_films["primaryTitle"])
-
-    with st.form("form 1"):
     
-        # Indication utilisateur
-        st.subheader("Visuel 1 : Liste déroulante")
-        
-        # Mise en place du choix utilisateurs
-        films = st.selectbox("Films : ",list_film_deroulante_films)
+    # Visuel adapté à notre dataframe avec liste déroulante
+    with st.form("form 1"):    
 
-        # Bouton submit
-        submit_1 = st.form_submit_button("Soumettre")
-    # FIN DU TEST
-
-    
-    # Deuxième visuel adapté à notre dataframe avec liste déroulante
-    with st.form("form 2"):    
-
-        st.subheader("Visuel 2 : Liste déroulante & apparition dataframe")
+        st.subheader("Liste déroulante & apparition dataframe")
 
         # Importation de nouvelles bibliothèques (vérifier utilité & supprimer doublons)
         import unicodedata
