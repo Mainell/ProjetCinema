@@ -1,53 +1,33 @@
 # Importation des bibliothèques nécessaires
-
 import streamlit as st
 from streamlit_option_menu import option_menu
-
 import pandas as pd
-
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
-
 from deep_translator import GoogleTranslator
 translator = GoogleTranslator(source='auto', target='fr')
 
-# Importation du datasetcd
-
+# Importation du dataset
 df = pd.read_csv("df_avecgenretrad.csv")
 
-
 # Ajout d'un fond sonore
-
 col1, col2, col3 = st.columns(3)
 with col1:
     st.write(' ')
-
 with col2:
     st.audio("mediavision.mp3", format="audio/mpeg", autoplay = False)
-
 with col3:
     st.write(' ')
 
 # Ajout d'un fond d'écran
-
-page_element="""
-<style>
-[data-testid="stAppViewContainer"]{
-  background-image: url("https://lafibre.info/images/smileys/201004_Warm_lights_by_Max_Barners.jpg");
-  background-size: cover;
-}
-</style>
-"""
-
+page_element="""<style>[data-testid="stAppViewContainer"]{background-image: url("https://lafibre.info/images/smileys/201004_Warm_lights_by_Max_Barners.jpg");
+  background-size: cover;}</style>"""
 st.markdown(page_element, unsafe_allow_html=True)
 
-
 # Création d'un menu permettant d'accéder à la page d'accueil ou d'accéder à deux stratégies différentes de choix du film
-
 option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période"])
-
 if option == "Accueil":
-    # Page d'Accueil
+    # Première page: page d'accueil
     # Ajout d'un mot de bienvenue
     st.markdown(
         """
@@ -57,35 +37,28 @@ if option == "Accueil":
     )
 
     st.write("\n\n")
-    
-    
+
+
     # Ajout du logo de l'agence Multimedia-Creuse, au centre de trois colonnes
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown(
-        """
-        <h3 style="color: white; text-align: center;">Voici une suggestion de documentaires...</h3>
-        """, unsafe_allow_html=True
-        )
+        st.markdown("""<h3 style="color: white; text-align: center;">Voici une suggestion de documentaires...</h3>
+        """, unsafe_allow_html=True)
         st.write(' ')
 
     with col2:
         st.image("logo.png")
 
     with col3:
-        st.markdown(
-        """
-        <h3 style="color: white; text-align: center;">... en prévision des festivals du cinéma | 2025 </h3>
-        """, unsafe_allow_html=True
-        )
+        st.markdown("""<h3 style="color: white; text-align: center;">... en prévision des festivals du cinéma | 2025 </h3>
+        """, unsafe_allow_html=True)
         st.write(' ')
 
     st.write("\n\n")
     st.write('_____')
 
     # Ajout de quelques documentaires conseillés car thème récurrent des festivals cinéma
-
     col1, col2, col3 = st.columns(3)
     recoaccueil = df[df['genres'].str.contains("Documentary")].sort_values(by='averageRating', ascending=False).sample(6)
 
@@ -173,32 +146,23 @@ if option == "Accueil":
                     st.write("Aucun résumé disponible.")
                 else: st.write(translator.translate(j['overview']))
 
-
+# Deuxième page : choix par acteur
 elif option == "Choix par acteur":
-    # Deuxième page : choix par acteur
-    st.markdown(
-    """
-    <h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
-    """, unsafe_allow_html=True
-    )
-    #st.write('_____')
+    st.markdown("""<h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
+    """, unsafe_allow_html=True)
     st.write("\n\n")
 
     acteur =  st.text_input("Entrez le nom d'un acteur:")
 
     st.write('_____')
-    st.markdown(
-    """
-    <h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
-    """, unsafe_allow_html=True
-    )
+    st.markdown("""<h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
+    """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating',ascending=False)
         for index, row in films_acteur.iloc[0:2].iterrows():
-            #acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
             URL_image = base_image + row['poster_path']
             base_imdb = "https://www.imdb.com/title/"
@@ -228,7 +192,6 @@ elif option == "Choix par acteur":
     with col2:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
         for index, row in films_acteur.iloc[2:4].iterrows():
-            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
             URL_image = base_image + row['poster_path']
             base_imdb = "https://www.imdb.com/title/"
@@ -258,7 +221,6 @@ elif option == "Choix par acteur":
     with col3:
         films_acteur = df[df['primaryName'].str.contains(acteur, case=False, na=False)].sort_values(by='averageRating', ascending=False)
         for index, row in films_acteur.iloc[4:6].iterrows():
-            acteurs_principaux = ", ".join(row['primaryName'].split(", ")[:3])
             base_image = "https://image.tmdb.org/t/p/w500"
             URL_image = base_image + row['poster_path']
             base_imdb = "https://www.imdb.com/title/"
@@ -284,67 +246,42 @@ elif option == "Choix par acteur":
                 if pd.isna(row['overview']) or len(row['overview'])>4998:
                     st.write("Aucun résumé disponible.")
                 else: st.write(translator.translate(row['overview']))
-    
+
     st.write("\n\n")
     st.write('_____')
 
     col1, col2, col3 = st.columns(3)
     with col1:
         st.write(' ')
-
     with col2:
         st.write(' ')
-
     with col3:
         st.write(' ')
 
-
-
     st.write("\n\n")
 
-        
-
-else : 
-    # Troisième page : choix par genre et par période
-
-    st.markdown(
-    """
-    <h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
-    """, unsafe_allow_html=True
-    )
+# Troisième page : choix par genre et par période
+else :
+    st.markdown("""<h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
+    """, unsafe_allow_html=True)
 
     st.write('_____')
     st.write("\n\n")
-    
+
     genres = {
-        'Drame': 0,
-        'Crime': 1,
-        'Comédie': 2,
-        'Action': 3,
-        'Aventure': 4,
-        'Biographie': 5,
-        'Romance': 6,
-        'Fantaisie': 7,
-        'Horreur': 9,
-        'Mystère': 10,
-        'Science-fiction': 11,
-        'Animation': 12,
-        'Documentaire': 13,
-        'Western': 14,
-        'Famille': 16,
-        'Thriller': 17,
-        'Guerre': 18,
-        'Histoire': 20}
+        'Drame': 0,'Crime': 1,'Comédie': 2,'Action': 3,'Aventure': 4,
+        'Biographie': 5,'Romance': 6,'Fantaisie': 7,'Horreur': 9,
+        'Mystère': 10,'Science-fiction': 11,'Animation': 12,
+        'Documentaire': 13,'Western': 14,'Famille': 16,'Thriller': 17,
+        'Guerre': 18,'Histoire': 20}
 
     startyear, endyear = st.select_slider("Choisissez une date de début et une date de fin pour la période de votre film",
                                             options=range(1930, 2025),
                                             value=(1930, 2024))
-    #st.write("La période que vous avez choisie commence en", startyear, "et se termine en", endyear)
 
     col1, col2, col3 = st.columns(3)
     with col1:
         st.write(' ')
-
 
     with col2:
         X = df[['startYear','genre_facto']]
@@ -374,15 +311,12 @@ else :
             recom_final = pd.concat(recom).drop_duplicates(subset=['primaryTitle', 'startYear'])
             recom_final = recom_final.sort_values(["Distance", "averageRating"], ascending=[True, False])
 
-        #st.write('_____')
         st.write(' ')
         st.markdown("<h3 style='color: orange; text-align: center;'>Top 6 des recommandations</h3>", unsafe_allow_html=True)
         st.write("\n\n")
 
-
     with col3:
         st.write(' ')
-    
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -420,7 +354,7 @@ else :
     with col2:
         if recom_final.empty:
             st.markdown("<h5 style='color: white; text-align: center;'>Choisissez une période et un genre ci-dessus !</h5>", unsafe_allow_html=True)
-            #st.write("Choisissez une période et un genre ! Si rien ne s'affiche après avoir appuyé sur le bouton 'Lancer la recherche', c'est qu'aucun film n'a été trouvé pour les crtières sélectionnés.")
+
         else:
             for i, j in recom_final.iloc[2:4].iterrows():
                 base_image = "https://image.tmdb.org/t/p/w500"
@@ -484,7 +418,5 @@ else :
 
         st.write(' ')
 
-
-    
     st.write("\n\n")
     st.write('_____')
