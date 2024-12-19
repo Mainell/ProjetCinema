@@ -25,7 +25,7 @@ page_element="""<style>[data-testid="stAppViewContainer"]{background-image: url(
 st.markdown(page_element, unsafe_allow_html=True)
 
 # Création d'un menu permettant d'accéder à la page d'accueil ou d'accéder à deux stratégies différentes de choix du film
-option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période"])
+option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période", "Sélection à partir d'un film"])
 if option == "Accueil":
     # Première page: page d'accueil
     # Ajout d'un mot de bienvenue
@@ -261,7 +261,7 @@ elif option == "Choix par acteur":
     st.write("\n\n")
 
 # Troisième page : choix par genre et par période
-else :
+elif option == "Choix par genre et par période" :
     st.markdown("""<h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
     """, unsafe_allow_html=True)
 
@@ -420,3 +420,87 @@ else :
 
     st.write("\n\n")
     st.write('_____')
+
+else :
+
+    # TEST Premier visuel d'une ancienne promo de la wild avec liste déroulante
+    liste_films = pd.read_pickle("liste_films.pkl")
+    list_film_deroulante_films = ["Tape le film que tu aimes"] + list(liste_films["primaryTitle"])
+
+    with st.form("form 1"):
+    
+        # Indication utilisateur
+        st.subheader("Visuel 1 : Liste déroulante")
+        
+        # Mise en place du choix utilisateurs
+        films = st.selectbox("Films : ",list_film_deroulante_films)
+
+        # Bouton submit
+        submit_1 = st.form_submit_button("Soumettre")
+    # FIN DU TEST
+
+    
+    # Deuxième visuel adapté à notre dataframe avec liste déroulante
+    with st.form("form 2"):    
+
+        st.subheader("Visuel 2 : Liste déroulante & apparition dataframe")
+
+        # Importation de nouvelles bibliothèques (vérifier utilité & supprimer doublons)
+        import unicodedata
+
+        import numpy as np
+        from sklearn.neighbors import KNeighborsClassifier
+        from sklearn.preprocessing import StandardScaler, RobustScaler
+        from sklearn.model_selection import train_test_split
+       
+        # Vérifier si nécessaire d'importer à nouveau le dataframe
+        df = pd.read_csv("df_avecgenretrad.csv")
+
+        # Normalisation des données numériques
+        scaled_features = df.copy()
+        colonnes_num = ['startYear', 'averageRating', 'runtimeMinutes', 'genre_facto']
+        features = scaled_features[colonnes_num]
+        scaler = RobustScaler().fit(features.values)
+        features = scaler.transform(features.values)
+        scaled_features[colonnes_num] = features
+
+        # Choix des colonnes utilisées pour l'algortihme de KNN
+        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'startYear', 'runtimeMinutes', 'averageRating', 'genre_facto']]
+
+        # Variables X et y
+        X_bis = scaled_features.drop(['primaryTitle', 'titre_fr', 'startYear'], axis=1)
+        y_bis = scaled_features['primaryTitle']
+
+        # Sélection de 3 films pour le test
+        knn = KNeighborsClassifier(n_neighbors=4, weights='distance')
+        knn.fit(X_bis, y_bis)
+
+        # Indices des films les plus proches récupérés
+        distances, indices = knn.kneighbors(X_bis)
+
+        df_liste_vf = df['titre_fr'].tolist()
+        df_liste_vo = df['primaryTitle'].tolist()
+        df_liste = df_liste_vf + df_liste_vo
+        df_liste.insert(0, '')
+
+        st.write('Choisissez un film que vous avez apprécié :')
+        film_select = st.selectbox('', df_liste)
+
+        film_select = scaled_features[np.where(scaled_features['primaryTitle'].str.contains(film_select,case=False), True,False)|
+               np.where(scaled_features['titre_fr'].str.contains(film_select,case=False), True,False)]
+
+        film_select_string = film_select.iloc[0,0]
+
+        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, 'runtimeMinutes':'genre_facto'])
+
+        final_proposition = propositions[1][0]
+        final_proposition = final_proposition.tolist()
+
+        prop = df.iloc[final_proposition]
+
+        # Ordre de l'agencement des colonnes dans le dataframe affiché
+        prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto']]
+        prop = prop.iloc[1:4,:]
+
+        if st.form_submit_button():
+            st.write('Voici le top 3 des films recommandés : ', prop.assign(hack='').set_index('hack'))
