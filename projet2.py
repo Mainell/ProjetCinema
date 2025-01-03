@@ -400,7 +400,7 @@ else :
         from sklearn.model_selection import train_test_split
 
         # Vérifier si nécessaire d'importer à nouveau le dataframe
-        df = pd.read_csv("df_avecgenretrad.csv")
+        #df = pd.read_csv("df_avecgenretrad.csv")
 
         # Normalisation des données numériques
         scaled_features = df.copy()
@@ -414,7 +414,7 @@ else :
         scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'startYear', 'genre_facto']]
 
         # Variables X et y
-        X_bis = scaled_features.drop(['primaryTitle', 'titre_fr', 'startYear'], axis=1)
+        X_bis = scaled_features.drop(['primaryTitle', 'titre_fr'], axis=1)
         y_bis = scaled_features['primaryTitle']
 
         # Sélection de 3 films pour le test
