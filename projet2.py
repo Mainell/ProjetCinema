@@ -446,8 +446,8 @@ else :
         prop = df.iloc[final_proposition]
 
         # Ordre de l'agencement des colonnes dans le dataframe affiché
-        # prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto','poster_path', 'tconst', 'region', 'title','Genre_trad','overview']]
-        prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto']]
+        prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto','poster_path', 'tconst', 'region', 'title','Genre_trad','overview']]
+        # prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto']]
         prop = prop.iloc[1:4,:]
 
         if st.form_submit_button():
