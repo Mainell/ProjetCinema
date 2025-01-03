@@ -245,11 +245,11 @@ elif option == "Choix par genre et par période" :
     st.write("\n\n")
 
     genres = {
-        'Drame': 0,'Crime': 1,'Comédie': 2,'Action': 3,'Aventure': 4,
-        'Biographie': 5,'Romance': 6,'Fantaisie': 7,'Horreur': 9,
-        'Mystère': 10,'Science-fiction': 11,'Animation': 12,
-        'Documentaire': 13,'Western': 14,'Famille': 16,'Thriller': 17,
-        'Guerre': 18,'Histoire': 20}
+        'Comédie': 0,'Famille': 1,'Animation': 2,'Action': 3,'Aventure': 4,
+        'Guerre': 5,'Science-fiction': 6,'Mystère': 7,'Fantaisie': 9,
+        'Drame': 10,'Romance': 11,'Horreur': 12,
+        'Thriller': 13,'Crime': 14,'Western': 16,'Histoire': 17,
+        'Documentaire': 18,'Biographie': 20}
 
     startyear, endyear = st.select_slider("Choisissez une date de début et une date de fin pour la période de votre film",
                                             options=range(1930, 2025),
