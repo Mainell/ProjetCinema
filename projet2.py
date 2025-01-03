@@ -530,6 +530,9 @@ else :
                     st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
                         f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
                         f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+
+        else :
+            st.write(" ")
                     with st.expander("📜 Lire le résumé"):
                         if pd.isna(j['overview']) or len(j['overview'])>4998:
                             st.write("Aucun résumé disponible.")
