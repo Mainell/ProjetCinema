@@ -453,15 +453,15 @@ else :
             with col1:
                 for i, j in prop.iloc[0:1].iterrows():
                     base_image = "https://image.tmdb.org/t/p/w500"
-                    URL_image = base_image + j['poster_path']
+                    #URL_image = base_image + j['poster_path']
                     base_imdb = "https://www.imdb.com/title/"
-                    URL_imdb = base_imdb + j['tconst']
-                    regions = [x.strip("'")for x in j['region'].split(", ")]
-                    titres = [x.strip("'")for x in j['title'].split(", ")]
-                    if 'FR' in regions:
-                        indexfr = regions.index('FR')
-                        titrefr=titres[indexfr].strip("['[\"").replace('"',"")
-                    else: titrefr=titres[0].strip("['[\"").replace('"',"")
+                    #URL_imdb = base_imdb + j['tconst']
+                    #regions = [x.strip("'")for x in j['region'].split(", ")]
+                    #titres = [x.strip("'")for x in j['title'].split(", ")]
+                    #if 'FR' in regions:
+                        #indexfr = regions.index('FR')
+                        #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
+                    #else: titrefr=titres[0].strip("['[\"").replace('"',"")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
@@ -478,15 +478,15 @@ else :
             with col2:
                 for i, j in prop.iloc[1:2].iterrows():
                     base_image = "https://image.tmdb.org/t/p/w500"
-                    URL_image = base_image + j['poster_path']
+                    #URL_image = base_image + j['poster_path']
                     base_imdb = "https://www.imdb.com/title/"
-                    URL_imdb = base_imdb + j['tconst']
-                    regions = [x.strip("'")for x in j['region'].split(", ")]
-                    titres = [x.strip("'")for x in j['title'].split(", ")]
-                    if 'FR' in regions:
-                        indexfr = regions.index('FR')
-                        titrefr=titres[indexfr].strip("['[\"").replace('"',"")
-                    else: titrefr=titres[0].strip("['[\"").replace('"',"")
+                    #URL_imdb = base_imdb + j['tconst']
+                    #regions = [x.strip("'")for x in j['region'].split(", ")]
+                    #titres = [x.strip("'")for x in j['title'].split(", ")]
+                    #if 'FR' in regions:
+                        #indexfr = regions.index('FR')
+                        #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
+                    #else: titrefr=titres[0].strip("['[\"").replace('"',"")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
@@ -503,15 +503,15 @@ else :
             with col3: 
                 for i, j in prop.iloc[2:3].iterrows():
                     base_image = "https://image.tmdb.org/t/p/w500"
-                    URL_image = base_image + j['poster_path']
+                    #URL_image = base_image + j['poster_path']
                     base_imdb = "https://www.imdb.com/title/"
-                    URL_imdb = base_imdb + j['tconst']
-                    regions = [x.strip("'")for x in j['region'].split(", ")]
-                    titres = [x.strip("'")for x in j['title'].split(", ")]
-                    if 'FR' in regions:
-                        indexfr = regions.index('FR')
-                        titrefr=titres[indexfr].strip("['[\"").replace('"',"")
-                    else: titrefr=titres[0].strip("['[\"").replace('"',"")
+                    #URL_imdb = base_imdb + j['tconst']
+                    #regions = [x.strip("'")for x in j['region'].split(", ")]
+                    #titres = [x.strip("'")for x in j['title'].split(", ")]
+                    #if 'FR' in regions:
+                        #indexfr = regions.index('FR')
+                        #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
+                    #else: titrefr=titres[0].strip("['[\"").replace('"',"")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
