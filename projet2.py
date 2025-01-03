@@ -70,10 +70,6 @@ if option == "Accueil":
             URL_imdb = base_imdb + j['tconst']
             regions = [x.strip("'")for x in j['region'].split(", ")]
             titres = [x.strip("'")for x in j['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -98,10 +94,6 @@ if option == "Accueil":
             URL_imdb = base_imdb + j['tconst']
             regions = [x.strip("'")for x in j['region'].split(", ")]
             titres = [x.strip("'")for x in j['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -126,10 +118,6 @@ if option == "Accueil":
             URL_imdb = base_imdb + j['tconst']
             regions = [x.strip("'")for x in j['region'].split(", ")]
             titres = [x.strip("'")for x in j['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -169,10 +157,6 @@ elif option == "Choix par acteur":
             URL_imdb = base_imdb + row['tconst']
             regions = [x.strip("'")for x in row['region'].split(", ")]
             titres = [x.strip("'")for x in row['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -198,10 +182,6 @@ elif option == "Choix par acteur":
             URL_imdb = base_imdb + row['tconst']
             regions = [x.strip("'")for x in row['region'].split(", ")]
             titres = [x.strip("'")for x in row['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -227,10 +207,6 @@ elif option == "Choix par acteur":
             URL_imdb = base_imdb + row['tconst']
             regions = [x.strip("'")for x in row['region'].split(", ")]
             titres = [x.strip("'")for x in row['title'].split(", ")]
-            if len(regions)<len(titres):
-                regions += ['\\N']*(len(titres)-len(regions))
-            elif len(regions)>len(titres):
-                titres += ['']*(len(regions)-len(titres))
             if 'FR' in regions:
                 indexfr = regions.index('FR')
                 titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -330,10 +306,6 @@ elif option == "Choix par genre et par période" :
                 URL_imdb = base_imdb + j['tconst']
                 regions = [x.strip("'")for x in j['region'].split(", ")]
                 titres = [x.strip("'")for x in j['title'].split(", ")]
-                if len(regions)<len(titres):
-                  regions += ['\\N']*(len(titres)-len(regions))
-                elif len(regions)>len(titres):
-                  titres += ['']*(len(regions)-len(titres))
                 if 'FR' in regions:
                   indexfr = regions.index('FR')
                   titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -363,10 +335,6 @@ elif option == "Choix par genre et par période" :
                 URL_imdb = base_imdb + j['tconst']
                 regions = [x.strip("'")for x in j['region'].split(", ")]
                 titres = [x.strip("'")for x in j['title'].split(", ")]
-                if len(regions)<len(titres):
-                  regions += ['\\N']*(len(titres)-len(regions))
-                elif len(regions)>len(titres):
-                  titres += ['']*(len(regions)-len(titres))
                 if 'FR' in regions:
                   indexfr = regions.index('FR')
                   titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -396,10 +364,6 @@ elif option == "Choix par genre et par période" :
                 URL_imdb = base_imdb + j['tconst']
                 regions = [x.strip("'")for x in j['region'].split(", ")]
                 titres = [x.strip("'")for x in j['title'].split(", ")]
-                if len(regions)<len(titres):
-                  regions += ['\\N']*(len(titres)-len(regions))
-                elif len(regions)>len(titres):
-                  titres += ['']*(len(regions)-len(titres))
                 if 'FR' in regions:
                   indexfr = regions.index('FR')
                   titrefr=titres[indexfr].strip("['[\"").replace('"',"")
@@ -421,23 +385,21 @@ elif option == "Choix par genre et par période" :
     st.write("\n\n")
     st.write('_____')
 
+# Quatrième page : sélection à partir d'un film
 else :
-    
-    # Visuel adapté à notre dataframe avec liste déroulante
-    with st.form("form 1"):    
 
-        st.subheader("Liste déroulante & apparition dataframe")
+    # Visuel avec liste déroulante
+    with st.form("form 1"):
+        st.subheader("Vous trouverez ci-dessous une sélection de trois films à partir d'un film que vous avez aimé !")
 
-        # Importation de nouvelles bibliothèques (vérifier utilité & supprimer doublons)
         import unicodedata
-
         import numpy as np
         from sklearn.neighbors import KNeighborsClassifier
         from sklearn.preprocessing import StandardScaler, RobustScaler
         from sklearn.model_selection import train_test_split
        
         # Vérifier si nécessaire d'importer à nouveau le dataframe
-        df = pd.read_csv("df_avecgenretrad.csv")
+        #df = pd.read_csv("df_avecgenretrad.csv")
 
         # Normalisation des données numériques
         scaled_features = df.copy()
@@ -466,7 +428,7 @@ else :
         df_liste = df_liste_vf + df_liste_vo
         df_liste.insert(0, '')
 
-        st.write('Choisissez un film que vous avez apprécié :')
+        st.write('Quel film souhaitez-vous prendre comme référence ?')
         film_select = st.selectbox('', df_liste)
 
         film_select = scaled_features[np.where(scaled_features['primaryTitle'].str.contains(film_select,case=False), True,False)|
@@ -486,4 +448,4 @@ else :
         prop = prop.iloc[1:4,:]
 
         if st.form_submit_button():
-            st.write('Voici le top 3 des films recommandés : ', prop.assign(hack='').set_index('hack'))
+            st.write('Voici le top 3 des films recommandés à partir du film sélectionné : ', prop.assign(hack='').set_index('hack'))
