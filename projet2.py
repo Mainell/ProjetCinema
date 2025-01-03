@@ -404,14 +404,14 @@ else :
 
         # Normalisation des données numériques
         scaled_features = df.copy()
-        colonnes_num = ['startYear', 'averageRating', 'genre_facto']
+        colonnes_num = ['startYear', 'runtimeMinutes', 'averageRating', 'genre_facto']
         features = scaled_features[colonnes_num]
         scaler = RobustScaler().fit(features.values)
         features = scaler.transform(features.values)
         scaled_features[colonnes_num] = features
 
         # Choix des colonnes utilisées pour l'algorithme de KNN
-        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'startYear', 'averageRating', 'genre_facto']]
+        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'startYear', 'runtimeMinutes', 'averageRating', 'genre_facto']]
 
         # Variables X et y
         X_bis = scaled_features.drop(['primaryTitle', 'titre_fr', 'startYear'], axis=1)
