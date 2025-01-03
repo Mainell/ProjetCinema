@@ -411,10 +411,10 @@ else :
         scaled_features[colonnes_num] = features
 
         # Choix des colonnes utilisées pour l'algorithme de KNN
-        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto']]
+        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'averageRating', 'numVotes', 'genre_facto']]
 
         # Variables X et y
-        X_bis = scaled_features[['genre_facto']]
+        X_bis = scaled_features[['averageRating', 'numVotes','genre_facto']]
         y_bis = scaled_features['primaryTitle']
 
         # Sélection de 3 films pour le test
@@ -438,7 +438,7 @@ else :
 
         film_select_string = film_select.iloc[0,0]
 
-        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, 'genre_facto'])
+        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, ['genre_facto', 'averageRating', 'numVotes']])
 
         final_proposition = propositions[1][0]
         final_proposition = final_proposition.tolist()
