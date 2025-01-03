@@ -414,7 +414,7 @@ else :
         scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto']]
 
         # Variables X et y
-        X_bis = scaled_features.drop(['primaryTitle', 'titre_fr'], axis=1)
+        X_bis = scaled_features[['genre_facto']]
         y_bis = scaled_features['primaryTitle']
 
         # Sélection de 3 films pour le test
