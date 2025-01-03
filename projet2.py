@@ -399,9 +399,6 @@ else :
         from sklearn.preprocessing import StandardScaler, RobustScaler
         from sklearn.model_selection import train_test_split
 
-        # Vérifier si nécessaire d'importer à nouveau le dataframe
-        #df = pd.read_csv("df_avecgenretrad.csv")
-
         # Normalisation des données numériques
         scaled_features = df.copy()
         colonnes_num = ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']
@@ -447,7 +444,6 @@ else :
 
         # Ordre de l'agencement des colonnes dans le dataframe affiché
         prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto','poster_path', 'tconst', 'region', 'title','Genre_trad','overview']]
-        # prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto']]
         prop = prop.iloc[1:4,:]
 
         if st.form_submit_button():
