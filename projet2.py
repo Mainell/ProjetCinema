@@ -404,17 +404,17 @@ else :
 
         # Normalisation des données numériques
         scaled_features = df.copy()
-        colonnes_num = ['genre_facto']
+        colonnes_num = ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']
         features = scaled_features[colonnes_num]
         scaler = RobustScaler().fit(features.values)
         features = scaler.transform(features.values)
         scaled_features[colonnes_num] = features
 
         # Choix des colonnes utilisées pour l'algorithme de KNN
-        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto', 'averageRating', 'numVotes']]
+        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']]
 
         # Variables X et y
-        X_bis = scaled_features[['genre_facto', 'averageRating', 'numVotes']]
+        X_bis = scaled_features[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']]
         y_bis = scaled_features['primaryTitle']
 
         # Sélection de 3 films pour le test
@@ -438,7 +438,7 @@ else :
 
         film_select_string = film_select.iloc[0,0]
 
-        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, ['genre_facto', 'averageRating', 'numVotes']])
+        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']])
 
         final_proposition = propositions[1][0]
         final_proposition = final_proposition.tolist()
