@@ -462,7 +462,7 @@ else :
                         #indexfr = regions.index('FR')
                         #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
                     #else: titrefr=titres[0].strip("['[\"").replace('"',"")
-                    st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
+                    #st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
@@ -487,7 +487,7 @@ else :
                         #indexfr = regions.index('FR')
                         #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
                     #else: titrefr=titres[0].strip("['[\"").replace('"',"")
-                    st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
+                    #st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
@@ -512,7 +512,7 @@ else :
                         #indexfr = regions.index('FR')
                         #titrefr=titres[indexfr].strip("['[\"").replace('"',"")
                     #else: titrefr=titres[0].strip("['[\"").replace('"',"")
-                    st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
+                    #st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
                     st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
