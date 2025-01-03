@@ -452,6 +452,8 @@ else :
 
         if st.form_submit_button():
             st.write('Voici le top 3 des films recommandés à partir du film sélectionné: ')
+        else :
+            st.write(" ")
 
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -535,6 +537,3 @@ else :
                         if pd.isna(j['overview']) or len(j['overview'])>4998:
                             st.write("Aucun résumé disponible.")
                         else: st.write(translator.translate(j['overview']))
-
-        else :
-            st.write(" ")
