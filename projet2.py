@@ -438,7 +438,7 @@ else :
 
         film_select_string = film_select.iloc[0,0]
 
-        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, 'genre_facto'])
+        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, 'startYear':'genre_facto'])
 
         final_proposition = propositions[1][0]
         final_proposition = final_proposition.tolist()
