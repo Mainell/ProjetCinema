@@ -466,13 +466,13 @@ else :
                     #st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             #<span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                    st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
-                    with st.expander("📜 Lire le résumé"):
-                        if pd.isna(j['overview']) or len(j['overview'])>4998:
-                            st.write("Aucun résumé disponible.")
-                        else: st.write(translator.translate(j['overview']))
+                    #st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
+                        #f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        #f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                    #with st.expander("📜 Lire le résumé"):
+                        #if pd.isna(j['overview']) or len(j['overview'])>4998:
+                            #st.write("Aucun résumé disponible.")
+                        #else: st.write(translator.translate(j['overview']))
             st.write(' ')
 
             with col2:
@@ -491,13 +491,13 @@ else :
                     #st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             #<span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                    st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
-                    with st.expander("📜 Lire le résumé"):
-                        if pd.isna(j['overview']) or len(j['overview'])>4998:
-                            st.write("Aucun résumé disponible.")
-                        else: st.write(translator.translate(j['overview']))
+                    #st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
+                        #f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        #f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                    #with st.expander("📜 Lire le résumé"):
+                        #if pd.isna(j['overview']) or len(j['overview'])>4998:
+                            #st.write("Aucun résumé disponible.")
+                        #else: st.write(translator.translate(j['overview']))
             st.write(' ')
 
             with col3: 
@@ -516,11 +516,11 @@ else :
                     #st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
                             #<span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
-                    st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
-                    with st.expander("📜 Lire le résumé"):
-                        if pd.isna(j['overview']) or len(j['overview'])>4998:
-                            st.write("Aucun résumé disponible.")
-                        else: st.write(translator.translate(j['overview']))
+                    #st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
+                        #f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                        #f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                    #with st.expander("📜 Lire le résumé"):
+                        #if pd.isna(j['overview']) or len(j['overview'])>4998:
+                            #st.write("Aucun résumé disponible.")
+                        #else: st.write(translator.translate(j['overview']))
             st.write(' ')
