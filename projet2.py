@@ -398,7 +398,7 @@ elif option == "Choix par genre et par période" :
     st.write('_____')
 
 # Quatrième page : sélection à partir d'un film
-else :
+else:
 
     # Visuel avec encadré
     with st.form("form 1"):
@@ -413,7 +413,8 @@ else :
         scaled_features[colonnes_num] = features
 
         # Choix des colonnes utilisées pour l'algorithme de KNN
-        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']]
+        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto', 'averageRating', 'numVotes',
+                                           'startYear', 'runtimeMinutes']]
 
         # Variables X et y
         X_bis = scaled_features[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']]
@@ -427,8 +428,8 @@ else :
         distances, indices = knn.kneighbors(X_bis)
 
         # Création du contenu de la liste déroulante
-        df_liste_vf = df['titre_fr'].apply(lambda x:x.strip("['[\"")).tolist()
-        df_liste_vo = df['primaryTitle'].apply(lambda x:x.strip("['[\"")).tolist()
+        df_liste_vf = df['titre_fr'].apply(lambda x: x.strip("['[\"")).tolist()
+        df_liste_vo = df['primaryTitle'].apply(lambda x: x.strip("['[\"")).tolist()
         df_liste = df_liste_vf + df_liste_vo
         df_liste = list(set(df_liste))
         df_liste.insert(0, '')
@@ -438,35 +439,41 @@ else :
 
         # Bouton pour lancer la recherche
         if st.form_submit_button():
-                st.write('Voici le top 3 des films recommandés à partir du film sélectionné: ')
+            st.write('Voici le top 3 des films recommandés à partir du film sélectionné: ')
         else:
-                st.write(" ")
-
-        # Recherche à partir des mots sélectionnés
-        film_select = scaled_features[np.where(scaled_features['primaryTitle'].str.contains(film_select,case=False), True,False)|
-               np.where(scaled_features['titre_fr'].str.contains(film_select,case=False), True,False)]
-        
-        # Extraction de la première ligne de la première colonne (PrimaryTitle)
-        film_select_string = film_select.iloc[0,0]
-
-        # Utilisation du KNN à partir du film sélectionné
-        propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] == film_select_string, ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']])
-
-        # Renvoie de la liste des indices des voisins les plus proches
-        final_proposition = propositions[1][0].tolist()
-        prop = df.iloc[final_proposition]
-
-        # Ordre de l'agencement des colonnes dans le dataframe affiché
-        prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes','averageRating', 'genre_facto','poster_path', 'tconst', 'region', 'title','Genre_trad','overview']]
-
-        # Affiche des indices à 1 à 3, sans restriction sur les colonnes
-        prop = prop.iloc[1:4,:]
-
-        # Enlever l'affichage automatique de trois films
-        if film_select.shape[0] > 1:
             st.write(" ")
 
+        #Si pas d'entrée alors, on n'affiche rien
+        if film_select == "":
+            st.write("")
+
         else:
+            # Recherche à partir des mots sélectionnés
+            film_select_scaled = scaled_features[np.where(scaled_features['primaryTitle'].str
+                                                          .contains(film_select, case=False), True, False) |
+                                                 np.where(scaled_features['titre_fr'].str
+                                                          .contains(film_select, case=False), True, False)]
+
+            # Extraction de la première ligne de la première colonne (PrimaryTitle)
+            film_select_string = film_select_scaled.iloc[0, 0]
+
+            # Utilisation du KNN à partir du film sélectionné
+            propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] ==
+                                                              film_select_string, ['genre_facto', 'averageRating',
+                                                                                   'numVotes', 'startYear',
+                                                                                   'runtimeMinutes']])
+
+            # Renvoie de la liste des indices des voisins les plus proches
+            final_proposition = propositions[1][0].tolist()
+            prop = df.iloc[final_proposition]
+
+            # Ordre de l'agencement des colonnes dans le dataframe affiché
+            prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes', 'averageRating',
+                         'genre_facto', 'poster_path', 'tconst', 'region', 'title', 'Genre_trad', 'overview']]
+
+            # Affiche des indices à 1 à 3, sans restriction sur les colonnes
+            prop = prop.iloc[1:4, :]
+
             col1, col2, col3 = st.columns(3)
             with col1:
                 for i, j in prop.iloc[0:1].iterrows():
@@ -478,15 +485,17 @@ else :
                     titres = [x.strip("'")for x in j['title'].split(", ")]
                     if 'FR' in regions:
                         indexfr = regions.index('FR')
-                        titrefr = titres[indexfr].strip("['[\"").replace('"',"")
+                        titrefr = titres[indexfr].strip("['[\"").replace('"', "")
                     else:
-                        titrefr = titres[0].strip("['[\"").replace('"',"")
+                        titrefr = titres[0].strip("['[\"").replace('"', "")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; 
+                    color: white;">{titrefr}</span> <span style="font-size: 14px; font-weight: normal; 
+                    color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
                     st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                             f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h "
+                             f"{int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                             f"  - ⭐ Note moyenne : {j['averageRating']}\n")
                     with st.expander("📜 Lire le résumé"):
                         if pd.isna(j['overview']) or len(j['overview']) > 4998:
                             st.write("Aucun résumé disponible.")
@@ -503,16 +512,18 @@ else :
                     titres = [x.strip("'")for x in j['title'].split(", ")]
                     if 'FR' in regions:
                         indexfr = regions.index('FR')
-                        titrefr = titres[indexfr].strip("['[\"").replace('"',"")
+                        titrefr = titres[indexfr].strip("['[\"").replace('"', "")
                     else:
-                        titrefr = titres[0].strip("['[\"").replace('"',"")
+                        titrefr = titres[0].strip("['[\"").replace('"', "")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; 
+                    color: white;">{titrefr}</span> <span style="font-size: 14px; font-weight: normal; 
+                    color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
                     st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                             f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h "
+                             f"{int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                             f"  - ⭐ Note moyenne : {j['averageRating']}\n")
                     with st.expander("📜 Lire le résumé"):
                         if pd.isna(j['overview']) or len(j['overview']) > 4998:
                             st.write("Aucun résumé disponible.")
@@ -529,16 +540,18 @@ else :
                     titres = [x.strip("'")for x in j['title'].split(", ")]
                     if 'FR' in regions:
                         indexfr = regions.index('FR')
-                        titrefr = titres[indexfr].strip("['[\"").replace('"',"")
+                        titrefr = titres[indexfr].strip("['[\"").replace('"', "")
                     else:
-                        titrefr = titres[0].strip("['[\"").replace('"',"")
+                        titrefr = titres[0].strip("['[\"").replace('"', "")
                     st.markdown(f"""<a href="{URL_imdb}"><img src="{URL_image}"></a>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; color: white;">{titrefr}</span>
-                            <span style="font-size: 14px; font-weight: normal; color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style="text-align:center;"><span style="font-size: 20px; font-weight: bold; 
+                    color: white;">{titrefr}</span> <span style="font-size: 14px; font-weight: normal; 
+                    color: white;">({int(j['startYear'])})</span></div>""", unsafe_allow_html=True)
 
                     st.write(f"  - 🎭 Genre : {j['Genre_trad']}\n"
-                        f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h {int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
-                        f"  - ⭐ Note moyenne : {j['averageRating']}\n")
+                             f"  - ⌛ Durée : {int(j['runtimeMinutes']//60)}h "
+                             f"{int(j['runtimeMinutes']-((j['runtimeMinutes']//60)*60))}min\n"
+                             f"  - ⭐ Note moyenne : {j['averageRating']}\n")
 
                     with st.expander("📜 Lire le résumé"):
                         if pd.isna(j['overview']) or len(j['overview']) > 4998:
