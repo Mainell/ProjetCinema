@@ -413,20 +413,20 @@ else:
         # Normalisation des données numériques
         scaler = RobustScaler().fit(features.values)
         features_scaled = scaler.transform(features.values)
+        df_bis[colonnes_num] = features_scaled
 
-        # Création du TfidfVectorizer pour transformer les titres de films en vecteurs
-        # Application sur ['primaryTitle']
-        tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,3), min_df=2, max_df=0.50, sublinear_tf=True)
+        # Utilisation du TfidfVectorizer pour transformer les titres de films en vecteurs
+        tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,4), min_df=2, max_df=0.25, sublinear_tf=True, use_idf=True)
         tfidf_matrix = tfidf_vectorizer.fit_transform(df_bis['primaryTitle'])
 
-        # Fusion des données numériques normalisées et des vecteurs TF-IDF, création d'un DataFrame
+        # Fusion des données numériques normalisées et des vecteurs TF-IDF en un dataframe
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
 
-        # Définition des variables à atteindre (y_bis) et à partir desquelles réaliser le knn
+        # Définition des variables à utiliser pour le Machine Learning
         X_bis = pd.concat([df_bis[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']], tfidf_df], axis=1)
         y_bis = df_bis['primaryTitle']
 
-        # Choix de l'algorithme et entraînement
+        # Choix de l'algortihme et entraînement
         knn = KNeighborsClassifier(n_neighbors=4, weights='distance')
         knn.fit(X_bis, y_bis)
 
