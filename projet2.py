@@ -27,7 +27,7 @@ page_element="""<style>[data-testid="stAppViewContainer"]{background-image: url(
 st.markdown(page_element, unsafe_allow_html=True)
 
 # Création d'un menu permettant d'accéder à la page d'accueil ou d'accéder à deux stratégies différentes de choix du film
-option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur", "Choix par genre et par période", "Sélection à partir d'un film"])
+option = st.sidebar.selectbox("Quelle page de notre application souhaiteriez-vous consulter ?", ["Accueil", "Choix par acteur / réalisateur", "Choix par genre / période", "Choix à partir d'un film"])
 if option == "Accueil":
     # Première page: page d'accueil
     # Ajout d'un mot de bienvenue
@@ -135,7 +135,7 @@ if option == "Accueil":
                     st.write(translator.translate(j['overview']))
 
 # Deuxième page : choix par acteur
-elif option == "Choix par acteur":
+elif option == "Choix par acteur / réalisateur":
     st.markdown("""<h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
     """, unsafe_allow_html=True)
     st.write("\n\n")
@@ -243,7 +243,7 @@ elif option == "Choix par acteur":
     st.write("\n\n")
 
 # Troisième page : choix par genre et par période
-elif option == "Choix par genre et par période" :
+elif option == "Choix par genre / période" :
     st.markdown("""<h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
     """, unsafe_allow_html=True)
 
