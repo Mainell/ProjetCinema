@@ -420,14 +420,16 @@ else:
         tfidf_matrix = tfidf_vectorizer.fit_transform(df_bis['primaryTitle'])
 
         # Fusion des données numériques normalisées et des vecteurs TF-IDF en un dataframe
+        tfidf_importance = 10
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
+        tfidf_df *= tfidf_importance
 
         # Définition des variables à utiliser pour le Machine Learning
         X_bis = pd.concat([df_bis[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']], tfidf_df], axis=1)
         y_bis = df_bis['primaryTitle']
 
         # Choix de l'algortihme et entraînement
-        knn = KNeighborsClassifier(n_neighbors=4, weights='distance')
+        knn = NearestNeighbors(n_neighbors=4, metric='euclidean')
         knn.fit(X_bis, y_bis)
 
         # Création du contenu de la liste déroulante
@@ -441,7 +443,7 @@ else:
         film_select = st.selectbox('Quel film souhaiteriez-vous prendre comme référence ?', df_liste)
 
         # Bouton pour lancer la recherche
-        if st.form_submit_button():
+        if st.form_submit_button('Envoyer'):
             st.write('Voici le top 3 des films recommandés à partir du film sélectionné: ')
         else:
             st.write(" ")
@@ -461,10 +463,10 @@ else:
                 film_select_index = df_bis[df_bis['primaryTitle'] == film_select_string].index[0]
 
             # Récupérer les caractéristiques de ce film, qui incluent les données numériques et le vecteur TF-IDF
-                film_select_features = X_bis.loc[film_select_index].values.reshape(1, -1)
+                film_select_features = X_bis.loc[film_select_index].to_frame().T
 
             # Appliquer le modèle KNN pour trouver les voisins les plus proches
-                distances, indices = knn.kneighbors(film_select_features, n_neighbors = 4)
+                distances, indices = knn.kneighbors(film_select_features)
 
             # Récupérer les titres des films les plus proches
                 prop = df.iloc[indices[0]].copy()
