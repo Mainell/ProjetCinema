@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 from sklearn.neighbors import NearestNeighbors, KNeighborsClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
 from deep_translator import GoogleTranslator
 translator = GoogleTranslator(source='auto', target='fr')
 
@@ -404,28 +405,30 @@ else:
     with st.form("form 1"):
         st.subheader("Une sélection de trois films à partir d'un film apprécié")
 
-        # Normalisation des données numériques
-        scaled_features = df.copy()
+        # Préparation du DataFrame
+        df_bis = df.copy()
         colonnes_num = ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']
-        features = scaled_features[colonnes_num]
+        features = df_bis[colonnes_num]
+
+        # Normalisation des données numériques
         scaler = RobustScaler().fit(features.values)
-        features = scaler.transform(features.values)
-        scaled_features[colonnes_num] = features
+        features_scaled = scaler.transform(features.values)
 
-        # Choix des colonnes utilisées pour l'algorithme de KNN
-        scaled_features = scaled_features[['primaryTitle', 'titre_fr', 'genre_facto', 'averageRating', 'numVotes',
-                                           'startYear', 'runtimeMinutes']]
+        # Création du TfidfVectorizer pour transformer les titres de films en vecteurs
+        # Application sur ['primaryTitle']
+        tfidf_vectorizer = TfidfVectorizer(ngram_range=(1,3), min_df=2, max_df=0.50, sublinear_tf=True)
+        tfidf_matrix = tfidf_vectorizer.fit_transform(df_bis['primaryTitle'])
 
-        # Variables X et y
-        X_bis = scaled_features[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']]
-        y_bis = scaled_features['primaryTitle']
+        # Fusion des données numériques normalisées et des vecteurs TF-IDF, création d'un DataFrame
+        tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
 
-        # Sélection de trois films pour le test
+        # Définition des variables à atteindre (y_bis) et à partir desquelles réaliser le knn
+        X_bis = pd.concat([df_bis[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']], tfidf_df], axis=1)
+        y_bis = df_bis['primaryTitle']
+
+        # Choix de l'algorithme et entraînement
         knn = KNeighborsClassifier(n_neighbors=4, weights='distance')
         knn.fit(X_bis, y_bis)
-
-        # Indices des films les plus proches récupérés
-        distances, indices = knn.kneighbors(X_bis)
 
         # Création du contenu de la liste déroulante
         df_liste_vf = df['titre_fr'].apply(lambda x: x.strip("['[\"")).tolist()
@@ -443,29 +446,33 @@ else:
         else:
             st.write(" ")
 
-        #Si pas d'entrée alors, on n'affiche rien
+        # Par défaut, aucun film affiché
         if film_select == "":
             st.write("")
 
         else:
-            # Recherche à partir des mots sélectionnés
-            film_select_scaled = scaled_features[np.where(scaled_features['primaryTitle'].str
-                                                          .contains(film_select, case=False), True, False) |
-                                                 np.where(scaled_features['titre_fr'].str
-                                                          .contains(film_select, case=False), True, False)]
+            film_select_scaled = df_bis[df_bis.map(lambda x: isinstance(x, str) and film_select.lower() in x.lower()).any(axis=1)]
 
-            # Extraction de la première ligne de la première colonne (PrimaryTitle)
-            film_select_string = film_select_scaled.iloc[0, 0]
+            # Extraction de la première ligne de la cinquième colonne (primaryTitle)
+            film_select_string = film_select_scaled.iloc[0, 4]
 
-            # Utilisation du KNN à partir du film sélectionné
-            propositions = knn.kneighbors(scaled_features.loc[scaled_features['primaryTitle'] ==
-                                                              film_select_string, ['genre_facto', 'averageRating',
-                                                                                   'numVotes', 'startYear',
-                                                                                   'runtimeMinutes']])
+            # Si le titre sélectionné est bien dans le DataFrame, alors récupérer son index
+            if film_select_string in df_bis['primaryTitle'].values:
+                film_select_index = df_bis[df_bis['primaryTitle'] == film_select_string].index[0]
 
-            # Renvoie de la liste des indices des voisins les plus proches
-            final_proposition = propositions[1][0].tolist()
-            prop = df.iloc[final_proposition]
+            # Récupérer les caractéristiques de ce film, qui incluent les données numériques et le vecteur TF-IDF
+                film_select_features = X_bis.loc[film_select_index].values.reshape(1, -1)
+
+            # Appliquer le modèle KNN pour trouver les voisins les plus proches
+                distances, indices = knn.kneighbors(film_select_features, n_neighbors = 4)
+
+            # Récupérer les titres des films les plus proches
+                prop = df.iloc[indices[0]].copy()
+                prop['Distance'] = distances[0]
+
+
+            else:
+                st.write("Le film n'a pas été trouvé dans la base de données.")
 
             # Ordre de l'agencement des colonnes dans le dataframe affiché
             prop = prop[['titre_fr', 'primaryTitle', 'startYear', 'runtimeMinutes', 'averageRating',
