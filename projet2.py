@@ -137,11 +137,11 @@ if option == "Accueil":
 
 # Deuxième page : choix par acteur
 elif option == "Choix par acteur / réalisateur":
-    st.markdown("""<h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur !</h3>
+    st.markdown("""<h3 style="color: white; text-align: center;">Sur cette page vous allez accéder à une sélection de films en choisissant un acteur ou un réalisateur !</h3>
     """, unsafe_allow_html=True)
     st.write("\n\n")
 
-    acteur = st.text_input("Entrez le nom d'un acteur:")
+    acteur = st.text_input("Entrez le nom d'un acteur ou d'un réalisateur:")
 
     st.write('_____')
     st.markdown("""<h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
@@ -245,7 +245,7 @@ elif option == "Choix par acteur / réalisateur":
 
 # Troisième page : choix par genre et par période
 elif option == "Choix par genre / période" :
-    st.markdown("""<h2 style="color: white; text-align: center;"> Hey ! Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
+    st.markdown("""<h2 style="color: white; text-align: center;"> Ici vous allez pouvoir choisir un genre et une période pour votre film ✨ </h2>
     """, unsafe_allow_html=True)
 
     st.write('_____')
@@ -407,7 +407,7 @@ else:
 
         # Préparation du DataFrame
         df_bis = df.copy()
-        colonnes_num = ['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']
+        colonnes_num = ['genre_facto', 'averageRating', 'numVotes', 'startYear']
         features = df_bis[colonnes_num]
 
         # Normalisation des données numériques
@@ -420,12 +420,12 @@ else:
         tfidf_matrix = tfidf_vectorizer.fit_transform(df_bis['primaryTitle'])
 
         # Fusion des données numériques normalisées et des vecteurs TF-IDF en un dataframe
-        tfidf_importance = 10
+        tfidf_importance = 5
         tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf_vectorizer.get_feature_names_out())
         tfidf_df *= tfidf_importance
 
         # Définition des variables à utiliser pour le Machine Learning
-        X_bis = pd.concat([df_bis[['genre_facto', 'averageRating', 'numVotes', 'startYear', 'runtimeMinutes']], tfidf_df], axis=1)
+        X_bis = pd.concat([df_bis[['genre_facto', 'averageRating', 'numVotes', 'startYear']], tfidf_df], axis=1)
         y_bis = df_bis['primaryTitle']
 
         # Choix de l'algortihme et entraînement
