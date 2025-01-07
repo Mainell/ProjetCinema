@@ -144,8 +144,10 @@ elif option == "Choix par acteur / réalisateur":
     acteur = st.text_input("Entrez le nom d'un acteur ou d'un réalisateur:")
 
     st.write('_____')
-    st.markdown("""<h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
-    """, unsafe_allow_html=True)
+    
+    if acteur == "":
+        st.markdown("""<h5 style="color: white; text-align: center;">En attendant votre choix, nous vous proposons les films les mieux notés de notre base de données.</h5>
+        """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
