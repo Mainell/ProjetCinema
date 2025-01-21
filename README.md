@@ -8,5 +8,11 @@ Nous avons procédé au nettoyage et à l’analyse des données cinématographi
 
 Nous procèderons à l’affinage du contenu et de la présentation des produits en fonction des préférences indiquées par le client.
 
+Voici le lien pour accéder au streamlit :
+
+https://multimedia-creuse.streamlit.app/
+
+N'hésitez pas à me contacter si vous souhaitez que je "réveille" l'application !
+
 ## Bootcamp Data Analysis réalisé à la Wild Code School
 Antoine, Catherine, Fabrice, Mainell & Myriam
