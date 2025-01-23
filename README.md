@@ -1,4 +1,4 @@
-# ProjetCinema
+# ProjetCollectifCinema
 Voici un espace de travail collaboratif utilisé dans le cadre notre deuxième projet.
 Le client a fixé deux objectifs :
 - créer un outil de visualisation donnant à voir des indicateurs statistiques et des KPIs pertinents pour favoriser le développement de son cinéma;
