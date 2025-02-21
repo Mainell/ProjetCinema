@@ -14,7 +14,8 @@ https://multimedia-creuse.streamlit.app/
 
 N'hésitez pas à me contacter si vous souhaitez que je "réveille" l'application !
 
-Bootcamp Data Analysis réalisé à la Wild Code School
+**Bootcamp Data Analysis réalisé à la Wild Code School**
+
 Antoine, Catherine, Fabrice, Mainell & Myriam
 
 # Visuels
