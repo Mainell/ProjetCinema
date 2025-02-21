@@ -16,3 +16,11 @@ N'hésitez pas à me contacter si vous souhaitez que je "réveille" l'applicatio
 
 ## Bootcamp Data Analysis réalisé à la Wild Code School
 Antoine, Catherine, Fabrice, Mainell & Myriam
+
+![Accueil](images/accueil.png)
+
+![Acteur_actrice](images/acteur.png)
+
+![Genre_periode](images/genre.png)
+
+![Machine_learning](images/ml.png)
