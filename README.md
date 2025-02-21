@@ -17,9 +17,9 @@ N'hésitez pas à me contacter si vous souhaitez que je "réveille" l'applicatio
 Bootcamp Data Analysis réalisé à la Wild Code School
 Antoine, Catherine, Fabrice, Mainell & Myriam
 
-# Extraits
+# Visuels
 
-*Voici quelques captures d'écran de l'interface de recommandation créée à l'aide de l'outil streamlit :*
+Voici quelques captures d'écran de l'interface de recommandation créée à l'aide de l'outil streamlit :
 
 ![Accueil](images/accueil.png)
 
